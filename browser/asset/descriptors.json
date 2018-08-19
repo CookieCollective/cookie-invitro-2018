@@ -5,7 +5,7 @@
 	"textures": {
 	},
 	"geometries": {
-		"cookie": { "file" : "mesh/cookie_3k.obj" }
+		"cookie": { "file" : "mesh/cookie.ply" }
 	},
 	"shaders": {
 		"points": {

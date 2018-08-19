@@ -23,8 +23,8 @@ export default function() {
 
 		camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.01, 2000);
 		camera.position.x = 0;
-		camera.position.y = 2.5;
-		camera.position.z = 5;
+		camera.position.y = 3;
+		camera.position.z = 2;
 
 		controls = new OrbitControls(camera, renderer.domElement);
 		controls.enableDamping = true;
@@ -48,10 +48,11 @@ export default function() {
 		params.forEach(name =>  uniforms[name] = {value:parameters.debug[name]});
 
 		assets.shaders.render.uniforms = uniforms;
-		add(assets.shaders.points, Geometry.create(Geometry.random(1000)));
-		var wireframe = new THREE.LineSegments(new THREE.EdgesGeometry(assets.geometries.cookie.children[0].geometry), assets.shaders.wireframe);
-		// wireframe.scale.multiplyScalar(100.);
-		scene.add(wireframe);
+		var cookie = assets.geometries.cookie;
+		add(assets.shaders.points, Geometry.create(cookie.attributes));
+		add(assets.shaders.wireframe, [cookie]);
+		// var wireframe = new THREE.LineSegments(new THREE.EdgesGeometry(cookie), assets.shaders.wireframe);
+		// scene.add(wireframe);
 		
 		onWindowResize();
 		window.addEventListener('resize', onWindowResize, false);
