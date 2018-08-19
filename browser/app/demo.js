@@ -50,9 +50,10 @@ export default function() {
 		assets.shaders.render.uniforms = uniforms;
 		var cookie = assets.geometries.cookie;
 		add(assets.shaders.points, Geometry.create(cookie.attributes));
-		add(assets.shaders.wireframe, [cookie]);
-		// var wireframe = new THREE.LineSegments(new THREE.EdgesGeometry(cookie), assets.shaders.wireframe);
-		// scene.add(wireframe);
+		// add(assets.shaders.wireframe, [cookie]);
+		var wireframe = new THREE.LineSegments(new THREE.EdgesGeometry(cookie), assets.shaders.wireframe);
+		assets.shaders.wireframe.uniforms = uniforms;
+		scene.add(wireframe);
 		
 		onWindowResize();
 		window.addEventListener('resize', onWindowResize, false);

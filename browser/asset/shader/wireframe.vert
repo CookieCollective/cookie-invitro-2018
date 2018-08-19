@@ -1,5 +1,6 @@
 
 attribute vec3 color;
+uniform float time;
 varying vec3 vColor;
 
 void main () {
