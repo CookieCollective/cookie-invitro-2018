@@ -1,0 +1,25 @@
+{
+	"animations": "animation/scene.json",
+	"fonts": {
+	},
+	"textures": {
+	},
+	"geometries": {
+		"cookie": { "file" : "mesh/cookie_3k.obj" }
+	},
+	"shaders": {
+		"points": {
+			"vertexShader": "shader/points.vert",
+			"fragmentShader": "shader/points.frag"
+		},
+		"wireframe": {
+			"vertexShader": "shader/wireframe.vert",
+			"fragmentShader": "shader/wireframe.frag"
+		},
+		"render": {
+			"vertexShader": "shader/fullscreen.vert",
+			"fragmentShader": "shader/render.frag"
+		}
+	}
+}
+

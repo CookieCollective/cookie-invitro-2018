@@ -1,0 +1,20 @@
+export default {
+	debug: {
+		rotationX: 2,
+		rotationY: 5,
+		rotationZ: 3.77,
+		tunnelRange: 10.,
+		tunnelRadius: 3.,
+		tunnelTileSize: .3,
+		tunnelTileWidth: 40.,
+		tunnelCableRadius: .05,
+		tunnelCableFrequency: 5.,
+		tunnelCableMess: .3,
+		tunneTubeRadius: .2,
+		tunnelDoorGround: .19,
+		tunnelDoorArc: .07,
+		tunnelDoorHeight: .45,
+		tunnelDoorWidth: .65,
+		tunnelWalk: 0.05,
+	},
+}
