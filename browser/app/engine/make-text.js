@@ -22,9 +22,11 @@ function createCanvas(segments)
 		var words = options.text.split('\n');
 		var line = '';
 
-		var x = ctx.canvas.width / 2;
-		var y = ctx.canvas.height / 2;
+		var anchor = options.anchor || [.5,.5];
+		var x = ctx.canvas.width * anchor[0];
+		var y = ctx.canvas.height * anchor[1];
 
+		x += options.offsetX || 0;
 		y += options.offsetY || 0;
 
 		// y = ctx.canvas.height - fontSize;

@@ -5,16 +5,41 @@
 	"textures": {
 	},
 	"geometries": {
-		"cookie": { "file" : "mesh/cookie.ply" }
+		"cookie": { "file" : "mesh/cookie.ply" },
+		"curve": { "file" : "mesh/curve.obj" }
 	},
 	"shaders": {
 		"points": {
 			"vertexShader": "shader/points.vert",
-			"fragmentShader": "shader/points.frag"
+			"fragmentShader": "shader/points.frag",
+			"depthTest": false,
+			"transparent": true
 		},
 		"wireframe": {
 			"vertexShader": "shader/wireframe.vert",
 			"fragmentShader": "shader/wireframe.frag"
+		},
+		"constellation": {
+			"vertexShader": "shader/constellation.vert",
+			"fragmentShader": "shader/constellation.frag"
+		},
+		"lines": {
+			"vertexShader": "shader/lines.vert",
+			"fragmentShader": "shader/lines.frag",
+			"side": 2,
+			"depthTest": false,
+			"transparent": true
+		},
+		"curve": {
+			"vertexShader": "shader/curve.vert",
+			"fragmentShader": "shader/curve.frag",
+			"side": 2
+		},
+		"shape2D": {
+			"vertexShader": "shader/shape2D.vert",
+			"fragmentShader": "shader/shape2D.frag",
+			"depthTest": false,
+			"transparent": true
 		},
 		"render": {
 			"vertexShader": "shader/fullscreen.vert",

@@ -5,6 +5,8 @@ const float TAU = 6.28318;
 const float HALFPI = 1.57079;
 const float HALF3PI = 4.71238;
 
+#define repeat(p,r) (mod(p,r)-r/2.)
+
 // https://www.shadertoy.com/view/4dS3Wd
 float random (in vec2 st) { return fract(sin(dot(st.xy,vec2(12.9898,78.233)))*43758.5453123); }
 float hash(float n) { return fract(sin(n) * 1e4); }

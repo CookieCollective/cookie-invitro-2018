@@ -60,9 +60,10 @@ export default class {
 	}
 
 	static createDataTexture(dataArray, itemSize)	{
-		var dimension = closestPowerOfTwo(Math.sqrt(dataArray.length / itemSize));
+		// var dimension = closestPowerOfTwo(Math.sqrt(dataArray.length / itemSize));
 		var array = [];
-		var count = dimension * dimension;
+		// var count = dimension * dimension;
+		var count = dataArray.length / 3;
 		for (var t = 0; t < count; ++t) {
 			if (t*itemSize+itemSize-1 < dataArray.length) {
 				for (var i = 0; i < 3; ++i) {
@@ -76,7 +77,7 @@ export default class {
 				array.push(0,0,0);
 			}
 		}
-		var texture = new THREE.DataTexture(new Float32Array(array), dimension, dimension, THREE.RGBFormat, THREE.FloatType);
+		var texture = new THREE.DataTexture(new Float32Array(array), count, 1, THREE.RGBFormat, THREE.FloatType);
 		texture.needsUpdate = true;
 		return texture;
 	}

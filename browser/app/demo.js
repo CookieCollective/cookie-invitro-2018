@@ -31,12 +31,55 @@ export default function() {
 		controls.dampingFactor = 0.5;
 		controls.rotateSpeed = 0.25;
 
+		var curveArray = assets.geometries.curve.children[0].geometry.attributes.position.array;
+		var dataArray = [];
+		for (var i = 0; i < curveArray.length / 3 / 2; ++i) {
+			for (var x = 0; x < 3; ++x) {
+				dataArray.push(curveArray[i*2*3+x]);
+			}
+		}
+		var dataNormalArray = [];
+		var posVector = new THREE.Vector3();
+		var nextVector = new THREE.Vector3();
+		var biVector = new THREE.Vector3();
+		var tangentVectors = [];
+		var normalVectors = [(new THREE.Vector3(-.5,0,1)).normalize()];
+		for (var i = 0; i < dataArray.length/3; ++i) {
+			tangentVectors.push(new THREE.Vector3());
+			posVector.set(dataArray[i*3], dataArray[i*3+1], dataArray[i*3+2]);
+			if ((i+1) * 3 + 2 < dataArray.length) {
+				nextVector.set(dataArray[(i+1)*3], dataArray[(i+1)*3+1], dataArray[(i+1)*3+2]);
+				tangentVectors[i].subVectors(nextVector, posVector).normalize();
+			} else {
+				nextVector.set(dataArray[(i-1)*3], dataArray[(i-1)*3+1], dataArray[(i-1)*3+2]);
+				tangentVectors[i].subVectors(posVector, nextVector).normalize();
+			}
+		}
+		dataNormalArray.push(normalVectors[0].x, normalVectors[0].y, normalVectors[0].z);
+		for (var i = 0; i < tangentVectors.length - 1; ++i) {
+			biVector.crossVectors(tangentVectors[i], tangentVectors[i+1]);
+			normalVectors.push(new THREE.Vector3());
+			var normal = normalVectors[i];
+			if (biVector.length() == 0.) {
+				normalVectors[i+1].set(normal.x, normal.y, normal.z);
+			} else {
+				biVector.normalize();
+				var angle = Math.acos(tangentVectors[i].dot(tangentVectors[i+1]));
+				posVector.set(normal.x, normal.y, normal.z);
+				normalVectors[i+1] = posVector.applyAxisAngle(biVector, angle);
+			}
+			dataNormalArray.push(normalVectors[i+1].x, normalVectors[i+1].y, normalVectors[i+1].z);
+		}
+
+
 		uniforms = {
 			time: { value: 0 },
 			resolution: { value: [window.innerWidth, window.innerHeight] },
 			cameraPos: { value: camera.position },
 			cameraTarget: { value: controls.target },
 			frame: { value: frametarget.texture },
+			curve: { value: FrameBuffer.createDataTexture(dataArray, 3)},
+			curveNormal: { value: FrameBuffer.createDataTexture(dataNormalArray, 3)},
 		}
 		params = Object.keys(parameters.debug);
 		keys = Object.keys(assets.animations.actions);
@@ -45,15 +88,44 @@ export default function() {
 			uniforms[name] = {value:[0,0,0]};
 			deltas[name] = [0,0,0];
 		});
-		params.forEach(name =>  uniforms[name] = {value:parameters.debug[name]});
+		params.forEach(name =>  uniforms[name] = {value:parameters.debug[name]})
 
 		assets.shaders.render.uniforms = uniforms;
-		var cookie = assets.geometries.cookie;
-		add(assets.shaders.points, Geometry.create(cookie.attributes));
-		// add(assets.shaders.wireframe, [cookie]);
-		var wireframe = new THREE.LineSegments(new THREE.EdgesGeometry(cookie), assets.shaders.wireframe);
-		assets.shaders.wireframe.uniforms = uniforms;
-		scene.add(wireframe);
+		// var cookie = assets.geometries.cookie;
+		// var cookieAttributes = Geometry.create(cookie.attributes);
+		add(assets.shaders.points, Geometry.create(Geometry.random(1000)));
+		addWireframe(assets.shaders.constellation, [new THREE.OctahedronGeometry(10., 4.)]);
+		// add(assets.shaders.lines, Geometry.create(Geometry.random(20), [1,50]));
+		add(assets.shaders.curve, Geometry.create(Geometry.random(1), [dataArray.length/3, 1]));
+		// addWireframe(assets.shaders.wireframe, [cookie]);
+
+		addShape2D(assets.shaders.shape2D.clone(),
+		[-.9,.9,.5,.125/2.], // rect.xyzw
+		[-1,1], // anchor
+		[-25,0], // offset
+		makeText.createTexture([{
+			text: 'cookie demoparty',
+			font: 'bebasneue_bold',
+			width: 512,
+			height: 64,
+			fontSize: 80,
+			textAlign: 'center',
+			textBaseline: 'middle',
+		}]));
+
+		addShape2D(assets.shaders.shape2D.clone(),
+		[.9,-.9,.5,.125/2.], // rect.xyzw
+		[1,-1], // anchor
+		[55,0], // offset
+		makeText.createTexture([{
+			text: 'november 2018',
+			font: 'bebasneue_bold',
+			width: 512,
+			height: 64,
+			fontSize: 80,
+			textAlign: 'center',
+			textBaseline: 'middle',
+		}]));
 		
 		onWindowResize();
 		window.addEventListener('resize', onWindowResize, false);
@@ -72,6 +144,33 @@ export default function() {
 			mesh.applyMatrix(matrix);
 			sceneLayer.add(mesh);
 		});
+	}
+
+	function addWireframe(material, geometries, sceneLayer, matrix) {
+		material.uniforms = uniforms;
+		sceneLayer = sceneLayer || scene;
+		geometries = geometries || [ new THREE.PlaneGeometry(1,1) ];
+		matrix = matrix || new THREE.Matrix4();
+		geometries.forEach(geometry => {
+			var mesh = new THREE.LineSegments(new THREE.EdgesGeometry(geometry), material);
+			mesh.frustumCulled = false;
+			mesh.applyMatrix(matrix);
+			sceneLayer.add(mesh);
+		});
+	}
+
+	function addShape2D(material, rect, anchor, offset, texture) {
+		rect = rect || [0,0,1,1];
+		anchor = anchor || [0,0];
+		offset = offset || [0,0];
+		var mesh = new THREE.Mesh(new THREE.PlaneGeometry(1,1), material);
+		mesh.frustumCulled = false;
+		scene.add(mesh);
+		material.uniforms.resolution = { value: [window.innerWidth, window.innerHeight] };
+		material.uniforms.rect = { value: rect };
+		material.uniforms.anchor = { value: anchor };
+		material.uniforms.offset = { value: offset };
+		material.uniforms.texture = { value: texture };
 	}
 
 	function animate(elapsed) {

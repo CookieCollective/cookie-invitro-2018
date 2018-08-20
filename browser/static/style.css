@@ -7,6 +7,46 @@
 	font-style: normal;
 }
 
+@font-face {
+	font-family: 'blockt';
+	src: url('blockt.woff2') format('woff2'),
+	url('blockt.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'wideawake';
+	src: url('wideawake.woff2') format('woff2'),
+	url('wideawake.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'gomarice';
+	src: url('gomarice.woff2') format('woff2'),
+	url('gomarice.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'bebasneue_bold';
+	src: url('bebasneue_bold.woff2') format('woff2'),
+	url('bebasneue_bold.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'bebasneue_regular';
+	src: url('bebasneue_regular.woff2') format('woff2'),
+	url('bebasneue_regular.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
 body {
 	font-family: 'bowlbyonesc';
 	background: #000;
