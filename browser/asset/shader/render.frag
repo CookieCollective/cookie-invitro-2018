@@ -28,6 +28,10 @@ void main () {
 
 	// color = mix(texture2D(frame, uv), texture2D(blur, uv), dof);
 	// color = texture2D(frame, uv) + color * dof;
+	// radius = 30. + 100. * sin(atan(p.y,p.x) * 1000.);
+	// offset = normalize(p) * unit * radius;
+	// vec4 c = texture2D(frame, uv) + texture2D(frame, uv-offset)*.25;
+	// color = c;
 	color = mix(texture2D(frame, uv), texture2D(blur, uv), dof) + color * dof;
 
 	vec3 background = mix(vec3(1,0,0),vec3(0),uv.y);
@@ -35,8 +39,8 @@ void main () {
 	// vec4 overlay = texture2D(text, uv);
 	vec4 overlay = vec4(0);
 	p = uv * 2. - 1.;
-	// color *= 1.-(abs(p.x)*abs(p.x)*abs(p.x));
-	// color *= 1.-(abs(p.y)*abs(p.y)*abs(p.y));
+	// color *= 1.-(abs(p.x)*abs(p.x)*abs(p.x)*abs(p.x));
+	// color *= 1.-(abs(p.y)*abs(p.y)*abs(p.y)*abs(p.y));
 	color *= 1.+.1*sin(p.y*1000.);
 	color *= 1.+.1*random(p);
 	// float lod = 8.;
@@ -58,7 +62,8 @@ void main () {
 	// float tracer = sin(p.x);
 	// color.rgb = mix(background, color.rgb, color.a);
 	float tracer = sdbox(p, vec2(.9, .7));
-	tracer = smoothstep(.001, 1., .002/abs(tracer));
+	tracer = smoothstep(.0, 1., .002/abs(tracer));
+	color = clamp(color, 0., 1.);
 	color = mix(color, 1.-color, tracer);
 	color += overlay;// + tracer;
 	vec4 ui = texture2D(frameUI, uv);

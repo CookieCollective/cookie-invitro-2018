@@ -25,7 +25,7 @@ void main () {
 	vec3 pos = position;
 	vec3 next = pos;
 
-	float seed = anchor.y + quantity.x * 67315.1654 + time;
+	float seed = anchor.y * .5 + quantity.x * 67315.1654 + time;
 	displace(pos, seed);
 	displace(next, seed + .01);
 

@@ -7,6 +7,6 @@ void main () {
 	float dist = abs(vAnchor.x);
 	// shade *= smoothstep(3., .1, dist);
 	// dist += smoothstep(.5,1.,abs(vAnchor.y));
-	float shade = .1/dist;
+	float shade = (1.-dist)*.5/dist;
 	gl_FragColor = vec4(shade);
 }

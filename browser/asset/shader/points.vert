@@ -10,12 +10,12 @@ varying vec3 vColor;
 void main () {
 	// float salt = random(position.xz);
 	float salt = random(vec2(quantity.xx)*100.);
-	float size = .1+.2*salt;
+	float size = .2+.4*salt;
 	float speed = .5;
 	float ratio = 1.-mod(quantity.x - time * speed - .5, 1.);
+	ratio = smoothstep(.5, 1., ratio);
 	size *= smoothstep(.0,.1,ratio) * smoothstep(1.,.9,ratio);
-	// ratio = smoothstep(.5, 1., ratio);
-	float range = 4.+2. * ratio * salt;
+	float range = 5. * ratio * salt;
 	// vec3 pos = vec3(range,0,0);
 	vec3 pos = position * .1;
 	// pos.xz *= rotation(quantity.x * 150.4598);
@@ -23,13 +23,13 @@ void main () {
 	// pos.yx *= rotation(quantity.x * 2.1569748);
 	vec3 offset = vec3(range,0,0);
 	float seed = quantity.x;
-	offset.xz *= rotation(seed * 100.4598 + time * .549);
+	offset.xz *= rotation(seed * 10.4598 + time * .549);
 	offset.yz *= rotation(seed * 20.1569748 + time * 1.54);
 	offset.yx *= rotation(seed * 30.5465);
 
 	float x = quantity.x;
-	// pos = texture2D(curve, vec2(x,0)).xyz;
-	pos += offset;
+	pos = texture2D(curve, vec2(x,0)).xyz;
+	pos += offset * 2.;
 
 	vec3 front = normalize(cameraPos - pos);
 	vec3 right = normalize(cross(front, vec3(0,1,0)));
