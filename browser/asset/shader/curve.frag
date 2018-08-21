@@ -9,5 +9,5 @@ void main () {
 	// shade *= smoothstep(.91,.9, dist);
 	float alpha = (.1/dist);
 	alpha = (1.-dist)*sqrt(alpha);
-	gl_FragColor = vec4(1);
+	gl_FragColor = vec4(.5+.5*shade,0,0,1);
 }

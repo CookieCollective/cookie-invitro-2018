@@ -8,7 +8,7 @@ varying vec3 vNormal, vView;
 
 void displace (inout vec3 pos, float seed) {
 	// float range = 2. * mod(seed, 1.);// * noise(pos*4.);
-	float range = 1. + 5. * abs(sin(seed));// * noise(pos*4.);
+	float range = 10. + 5. * (sin(seed));// * noise(pos*4.);
 	// range *= 1. + .5 * sin(seed);
 	// vec3 offset = vec3(range,0,0);
 	seed += range;

@@ -5,6 +5,7 @@ import assets from './engine/assets';
 import renderer from './engine/renderer';
 import parameters from './engine/parameters';
 import { clamp, lerp, lerpArray, lerpVector, lerpVectorArray, saturate } from './engine/misc';
+import Bloom from './libs/bloom/bloom';
 import * as timeline from './engine/timeline';
 import * as makeText from './engine/make-text';
 import Mouse from './engine/mouse';
@@ -13,13 +14,16 @@ import FrameBuffer from './engine/framebuffer';
 import { gui } from './engine/gui';
 
 export default function() {
-	var scene, camera, controls, uniforms, framerender, frametarget;
+	var scene, sceneUI, camera, controls, uniforms, framerender, frametarget, frameUI, bloom;
 	var keys, deltas, params;
 
 	assets.load(function() {
 		scene = new THREE.Scene();
+		sceneUI = new THREE.Scene();
 		framerender = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), assets.shaders.render);
 		frametarget = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight);
+		frameUI = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight);
+		bloom = new Bloom(frametarget.texture);
 
 		camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.01, 2000);
 		camera.position.x = 0;
@@ -78,6 +82,9 @@ export default function() {
 			cameraPos: { value: camera.position },
 			cameraTarget: { value: controls.target },
 			frame: { value: frametarget.texture },
+			frameUI: { value: frameUI.texture },
+			blur: { value: bloom.blurTarget.texture },
+			bloom: { value: bloom.bloomTarget.texture },
 			curve: { value: FrameBuffer.createDataTexture(dataArray, 3)},
 			curveNormal: { value: FrameBuffer.createDataTexture(dataNormalArray, 3)},
 		}
@@ -94,8 +101,9 @@ export default function() {
 		// var cookie = assets.geometries.cookie;
 		// var cookieAttributes = Geometry.create(cookie.attributes);
 		add(assets.shaders.points, Geometry.create(Geometry.random(1000)));
-		addWireframe(assets.shaders.constellation, [new THREE.OctahedronGeometry(10., 4.)]);
-		// add(assets.shaders.lines, Geometry.create(Geometry.random(20), [1,50]));
+		add(assets.shaders.lensflare, Geometry.create(Geometry.random(100)));
+		addWireframe(assets.shaders.constellation, [new THREE.OctahedronGeometry(1000., 4.)]);
+		add(assets.shaders.lines, Geometry.create(Geometry.random(20), [1,50]));
 		add(assets.shaders.curve, Geometry.create(Geometry.random(1), [dataArray.length/3, 1]));
 		// addWireframe(assets.shaders.wireframe, [cookie]);
 
@@ -111,7 +119,7 @@ export default function() {
 			fontSize: 80,
 			textAlign: 'center',
 			textBaseline: 'middle',
-		}]));
+		}]), sceneUI);
 
 		addShape2D(assets.shaders.shape2D.clone(),
 		[.9,-.9,.5,.125/2.], // rect.xyzw
@@ -125,7 +133,7 @@ export default function() {
 			fontSize: 80,
 			textAlign: 'center',
 			textBaseline: 'middle',
-		}]));
+		}]), sceneUI);
 		
 		onWindowResize();
 		window.addEventListener('resize', onWindowResize, false);
@@ -159,13 +167,14 @@ export default function() {
 		});
 	}
 
-	function addShape2D(material, rect, anchor, offset, texture) {
+	function addShape2D(material, rect, anchor, offset, texture, sceneLayer) {
 		rect = rect || [0,0,1,1];
 		anchor = anchor || [0,0];
 		offset = offset || [0,0];
+		sceneLayer = sceneLayer || scene;
 		var mesh = new THREE.Mesh(new THREE.PlaneGeometry(1,1), material);
 		mesh.frustumCulled = false;
-		scene.add(mesh);
+		sceneLayer.add(mesh);
 		material.uniforms.resolution = { value: [window.innerWidth, window.innerHeight] };
 		material.uniforms.rect = { value: rect };
 		material.uniforms.anchor = { value: anchor };
@@ -190,6 +199,8 @@ export default function() {
 		params.forEach(name =>  uniforms[name].value = parameters.debug[name]);
 		
 		renderer.render(scene, camera, frametarget, true);
+		renderer.render(sceneUI, camera, frameUI, true);
+		bloom.render(renderer);
 		renderer.render(framerender, camera);
 	}
 
@@ -199,6 +210,7 @@ export default function() {
 		renderer.setSize(window.innerWidth, window.innerHeight);
 		uniforms.resolution.value[0] = w;
 		uniforms.resolution.value[1] = h;
+		bloom.resize();
 		frametarget.setSize(w,h);
 		camera.aspect = w/h;
 		camera.updateProjectionMatrix();

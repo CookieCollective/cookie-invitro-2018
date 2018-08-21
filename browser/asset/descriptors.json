@@ -41,6 +41,24 @@
 			"depthTest": false,
 			"transparent": true
 		},
+		"lensflare": {
+			"vertexShader": "shader/lensflare.vert",
+			"fragmentShader": "shader/lensflare.frag",
+			"depthTest": false,
+			"transparent": true
+		},
+		"bloom": {
+			"vertexShader": "shader/bloom/bloom.vert",
+			"fragmentShader": "shader/bloom/bloom.frag"
+		},
+		"bright": {
+			"vertexShader": "shader/bloom/bright.vert",
+			"fragmentShader": "shader/bloom/bright.frag"
+		},
+		"gaussian_blur": {
+			"vertexShader": "shader/bloom/gaussian_blur.vert",
+			"fragmentShader": "shader/bloom/gaussian_blur.frag"
+		},
 		"render": {
 			"vertexShader": "shader/fullscreen.vert",
 			"fragmentShader": "shader/render.frag"
