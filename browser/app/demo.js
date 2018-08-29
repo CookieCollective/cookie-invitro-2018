@@ -15,7 +15,7 @@ import { gui } from './engine/gui';
 
 export default function() {
 	var scene, sceneUI, camera, controls, uniforms, framerender, frametarget, frameUI, bloom;
-	var keys, deltas, params;
+	var keys, deltas, params, uniformsToUpdate;
 
 	assets.load(function() {
 		scene = new THREE.Scene();
@@ -25,7 +25,7 @@ export default function() {
 		frameUI = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight);
 		bloom = new Bloom(frametarget.texture);
 
-		camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.01, 2000);
+		camera = new THREE.PerspectiveCamera(20, window.innerWidth / window.innerHeight, 0.01, 2000);
 		camera.position.x = 0;
 		camera.position.y = 3;
 		camera.position.z = 2;
@@ -107,6 +107,7 @@ export default function() {
 		add(assets.shaders.curve, Geometry.create(Geometry.random(1), [dataArray.length/3, 1]));
 		// addWireframe(assets.shaders.wireframe, [cookie]);
 
+		uniformsToUpdate = [];
 		addShape2D(assets.shaders.shape2D.clone(),
 		[-.9,.9,.5,.125/2.], // rect.xyzw
 		[-1,1], // anchor
@@ -119,7 +120,7 @@ export default function() {
 			fontSize: 80,
 			textAlign: 'center',
 			textBaseline: 'middle',
-		}]), sceneUI);
+		}]));
 
 		addShape2D(assets.shaders.shape2D.clone(),
 		[.9,-.9,.5,.125/2.], // rect.xyzw
@@ -133,7 +134,7 @@ export default function() {
 			fontSize: 80,
 			textAlign: 'center',
 			textBaseline: 'middle',
-		}]), sceneUI);
+		}]));
 		
 		onWindowResize();
 		window.addEventListener('resize', onWindowResize, false);
@@ -180,6 +181,7 @@ export default function() {
 		material.uniforms.anchor = { value: anchor };
 		material.uniforms.offset = { value: offset };
 		material.uniforms.texture = { value: texture };
+		uniformsToUpdate.push(material.uniforms);
 	}
 
 	function animate(elapsed) {
@@ -214,5 +216,6 @@ export default function() {
 		frametarget.setSize(w,h);
 		camera.aspect = w/h;
 		camera.updateProjectionMatrix();
+		uniformsToUpdate.forEach(item => item.resolution.value = [window.innerWidth, window.innerHeight]);
 	}
 }

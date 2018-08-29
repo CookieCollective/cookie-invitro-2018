@@ -30,7 +30,7 @@ export default class PlaneBloom {
         value: this.texBlur,
       }
     };
-    var material = assets.shaders.bloom.clone();
+    var material = assets.shaders.bloom;
     material.uniforms = this.uniforms;
     return new THREE.Mesh(new THREE.PlaneBufferGeometry(2, 2), material);
   }

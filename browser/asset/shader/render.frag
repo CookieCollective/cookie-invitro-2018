@@ -32,7 +32,10 @@ void main () {
 	// offset = normalize(p) * unit * radius;
 	// vec4 c = texture2D(frame, uv) + texture2D(frame, uv-offset)*.25;
 	// color = c;
-	color = mix(texture2D(frame, uv), texture2D(blur, uv), dof) + color * dof;
+	// color = mix(texture2D(frame, uv), texture2D(bloom, uv), dof) + color * dof;
+	// color = mix(texture2D(frame, uv), texture2D(bloom, uv), dof) + color * dof;
+	color += texture2D(bloom, uv);
+	// color = texture2D(bloom, uv);
 
 	vec3 background = mix(vec3(1,0,0),vec3(0),uv.y);
 	// uv.x = (uv.x-.5)*resolution.x/resolution.y+.5;

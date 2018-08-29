@@ -41,6 +41,12 @@
 			"depthTest": false,
 			"transparent": true
 		},
+		"uilines": {
+			"vertexShader": "shader/uilines.vert",
+			"fragmentShader": "shader/uilines.frag",
+			"depthTest": false,
+			"transparent": true
+		},
 		"lensflare": {
 			"vertexShader": "shader/lensflare.vert",
 			"fragmentShader": "shader/lensflare.frag",

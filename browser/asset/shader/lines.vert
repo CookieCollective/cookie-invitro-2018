@@ -21,7 +21,7 @@ void displace (inout vec3 pos, float seed) {
 }
 
 void main () {
-	float size = .5;
+	float size = .1;
 	vec3 pos = position;
 	vec3 next = pos;
 
