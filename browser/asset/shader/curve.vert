@@ -1,6 +1,6 @@
 
 attribute vec2 anchor, quantity;
-uniform sampler2D curve, curveNormal;
+uniform sampler2D curvePosition, curveNormal;
 uniform vec3 cameraPos, cameraTarget;
 uniform float time;
 varying vec3 vNormal, vView;
@@ -15,8 +15,8 @@ void main () {
 	// ratio = smoothstep(.4, 1., ratio);
 	// x = clamp(x, smoothstep(.5, 1., ratio), smoothstep(.0, .5, ratio));
 	// x = mod(x / 2. + time * speed, 1.);
-	vec3 pos = texture2D(curve, vec2(x,0)).xyz;
-	vec3 next = texture2D(curve, vec2(x+.01,0)).xyz;
+	vec3 pos = texture2D(curvePosition, vec2(x,0)).xyz;
+	vec3 next = texture2D(curvePosition, vec2(x+.01,0)).xyz;
 	vec3 right = texture2D(curveNormal, vec2(x,0)).xyz;
 
 	vNormal = cross(normalize(pos - next), right);

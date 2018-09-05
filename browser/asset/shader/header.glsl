@@ -3,9 +3,23 @@ const float PI = 3.14159;
 const float PI2 = 6.28318;
 const float TAU = 6.28318;
 const float HALFPI = 1.57079;
+const float PIHALF = 1.57079;
+const float PIQUART = 0.785397;
 const float HALF3PI = 4.71238;
 
 #define repeat(p,r) (mod(p,r)-r/2.)
+#define sdist(p,r) (length(p)-r)
+float box (vec3 p, vec3 b) { vec3 d = abs(p) - b; return min(max(d.x,max(d.y,d.z)),0.0) + length(max(d,0.0)); }
+float torus (vec3 p, vec2 t) { vec2 q = vec2(length(p.xz)-t.x,p.y); return length(q)-t.y; }
+float smoothmin (float a, float b, float r) { float h = clamp(.5+.5*(b-a)/r, 0., 1.); return mix(b, a, h)-r*h*(1.-h); }
+mat2 rot (float a) { float c=cos(a),s=sin(a); return mat2(c,-s,s,c); }
+vec3 look (vec3 eye, vec3 target, vec2 anchor) {
+    vec3 forward = normalize(target-eye);
+    vec3 right = normalize(cross(forward, vec3(0,1,0)));
+    vec3 up = normalize(cross(right, forward));
+    return normalize(forward + right * anchor.x + up * anchor.y);
+}
+
 
 // https://www.shadertoy.com/view/4dS3Wd
 float random (in vec2 st) { return fract(sin(dot(st.xy,vec2(12.9898,78.233)))*43758.5453123); }

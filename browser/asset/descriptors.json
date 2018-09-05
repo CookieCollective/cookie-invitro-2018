@@ -19,6 +19,10 @@
 			"vertexShader": "shader/wireframe.vert",
 			"fragmentShader": "shader/wireframe.frag"
 		},
+		"raymarching": {
+			"vertexShader": "shader/fullscreen.vert",
+			"fragmentShader": "shader/raymarching.frag"
+		},
 		"constellation": {
 			"vertexShader": "shader/constellation.vert",
 			"fragmentShader": "shader/constellation.frag"
