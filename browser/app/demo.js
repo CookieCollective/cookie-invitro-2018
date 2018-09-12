@@ -21,18 +21,26 @@ export default function() {
 	assets.load(function() {
 		scene = new THREE.Scene();
 		framerender = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), assets.shaders.render);
+		framerender.frustumCulled = false;
 		frametarget = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight);
 		bloom = new Bloom(frametarget.texture);
 
-		camera = new THREE.PerspectiveCamera(20, window.innerWidth / window.innerHeight, 0.01, 2000);
-		camera.position.x = 0;
-		camera.position.y = 3;
-		camera.position.z = 2;
+		camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.01, 2000);
+		camera.position.x = 5;
+		camera.position.y = 2;
+		camera.position.z = 0;
 
 		controls = new OrbitControls(camera, renderer.domElement);
 		controls.enableDamping = true;
-		controls.dampingFactor = 0.5;
-		controls.rotateSpeed = 0.25;
+		controls.dampingFactor = 0.01;
+		controls.rotateSpeed = 0.01;
+		controls.target.y = 3;
+		controls.enablePan = false;
+		controls.minDistance = 2.;
+		controls.maxDistance = 5.;
+		controls.minPolarAngle = Math.PI/2.;
+		controls.maxPolarAngle = Math.PI/16.+Math.PI/2.;
+		// controls.minAzimuthAngle
 
 		// var curveArray = assets.geometries.curve.children[0].geometry.attributes.position.array;
 		// generateCurve(curveArray, assets.shaders.curve, scene);
@@ -57,43 +65,64 @@ export default function() {
 		uniformsToUpdate = [];
 
 		assets.shaders.render.uniforms = uniforms;
-		// var cookie = assets.geometries.cookie;
+		var cookie = assets.geometries.cookie;
 		// var cookieAttributes = Geometry.create(cookie.attributes);
 		// add(assets.shaders.points, Geometry.create(Geometry.random(1000)));
+		add(assets.shaders.star, Geometry.create(Geometry.random(1000)));
 		// add(assets.shaders.lensflare, Geometry.create(Geometry.random(100)));
 		// addWireframe(assets.shaders.constellation, [new THREE.OctahedronGeometry(1000., 4.)]);
 		// add(assets.shaders.lines, Geometry.create(Geometry.random(20), [1,50]));
-		// addWireframe(assets.shaders.wireframe, [cookie]);
-		add(assets.shaders.raymarching);
-/*
+		addWireframe(assets.shaders.wireframe, [cookie]);
+		add(assets.shaders.desert, [new THREE.PlaneGeometry(20,20,100,100)]);
+		add(assets.shaders.chocolat, Geometry.clone(new THREE.DodecahedronBufferGeometry(1, 0), 50));
+
+		// add(assets.shaders.raymarching);
+
 		addShape2D(assets.shaders.shape2D.clone(),
-		[-.9,.9,.5,.125/2.], // rect.xyzw
-		[-1,1], // anchor
-		[-25,0], // offset
+		[.0,.0,1,.125], // rect.xyzw
+		[0,0], // anchor
+		[0,0], // offset
 		makeText.createTexture([{
 			text: 'cookie demoparty',
 			font: 'bebasneue_bold',
-			width: 512,
-			height: 64,
+			fillStyle: '#a3a3a3',
+			width: 1024,
+			height: 128,
+			fontSize: 160,
+			textAlign: 'center',
+			textBaseline: 'middle',
+		}]));
+
+		addShape2D(assets.shaders.shape2D.clone(),
+		[0,0,1,.125], // rect.xyzw
+		[0,0], // anchor
+		[0,-100], // offset
+		makeText.createTexture([{
+			text: 'november 2018',
+			font: 'bebasneue_bold',
+			fillStyle: '#a3a3a3',
+			width: 1024,
+			height: 128,
 			fontSize: 80,
 			textAlign: 'center',
 			textBaseline: 'middle',
 		}]));
 
 		addShape2D(assets.shaders.shape2D.clone(),
-		[.9,-.9,.5,.125/2.], // rect.xyzw
-		[1,-1], // anchor
-		[55,0], // offset
+		[0,-1,1,.125], // rect.xyzw
+		[0,-1], // anchor
+		[0,0], // offset
 		makeText.createTexture([{
-			text: 'november 2018',
+			text: 'more infos soon',
 			font: 'bebasneue_bold',
-			width: 512,
-			height: 64,
-			fontSize: 80,
+			fillStyle: '#a3a3a3',
+			width: 1024,
+			height: 128,
+			fontSize: 40,
 			textAlign: 'center',
 			textBaseline: 'middle',
 		}]));
-		*/
+
 		onWindowResize();
 		window.addEventListener('resize', onWindowResize, false);
 		requestAnimationFrame(animate);
@@ -160,10 +189,10 @@ export default function() {
 		params.forEach(name =>  uniforms[name].value = parameters.debug[name]);
 		uniformsToUpdate.forEach(item => item.time.value = elapsed);
 		
-		// renderer.render(scene, camera, frametarget, true);
-		// bloom.render(renderer);
-		// renderer.render(framerender, camera);
-		renderer.render(scene, camera);
+		renderer.render(scene, camera, frametarget, true);
+		bloom.render(renderer);
+		renderer.render(framerender, camera);
+		// renderer.render(scene, camera);
 	}
 
 	function onWindowResize() {

@@ -19,6 +19,14 @@
 			"vertexShader": "shader/wireframe.vert",
 			"fragmentShader": "shader/wireframe.frag"
 		},
+		"desert": {
+			"vertexShader": "shader/desert.vert",
+			"fragmentShader": "shader/desert.frag"
+		},
+		"ribbon": {
+			"vertexShader": "shader/ribbon.vert",
+			"fragmentShader": "shader/ribbon.frag"
+		},
 		"raymarching": {
 			"vertexShader": "shader/fullscreen.vert",
 			"fragmentShader": "shader/raymarching.frag"
@@ -26,6 +34,14 @@
 		"constellation": {
 			"vertexShader": "shader/constellation.vert",
 			"fragmentShader": "shader/constellation.frag"
+		},
+		"star": {
+			"vertexShader": "shader/star.vert",
+			"fragmentShader": "shader/star.frag"
+		},
+		"chocolat": {
+			"vertexShader": "shader/chocolat.vert",
+			"fragmentShader": "shader/chocolat.frag"
 		},
 		"lines": {
 			"vertexShader": "shader/lines.vert",

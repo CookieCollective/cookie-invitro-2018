@@ -14,8 +14,8 @@ void main () {
 	// vec2 offset = vec2(1,0) * unit;
 	vec2 p = uv-.5;
 	p.x *= resolution.x/resolution.y;
-	float radius = 30. + 10. * sin(atan(p.y,p.x) * 1000.);
-	vec2 offset = normalize(p) * unit * radius;
+	// float radius = 20.;// + 10. * sin(atan(p.y,p.x) * 1000.);
+	// vec2 offset = normalize(p) * unit * radius;
 	// color.r += texture2D(blur, uv-offset).r;
 	// offset = normalize(p) * unit * radius * 2.;
 	// color.g += texture2D(blur, uv-offset).g;
@@ -30,8 +30,8 @@ void main () {
 	// color = c;
 	// color = mix(texture2D(frame, uv), texture2D(bloom, uv), dof) + color * dof;
 	// color = mix(texture2D(frame, uv), texture2D(bloom, uv), dof) + color * dof;
-	// color += texture2D(bloom, uv);
-	color = texture2D(frame, uv);
+	color += texture2D(bloom, uv);
+	// color = texture2D(frame, uv);
 
 	vec3 background = mix(vec3(1,0,0),vec3(0),uv.y);
 	// uv.x = (uv.x-.5)*resolution.x/resolution.y+.5;
@@ -60,10 +60,10 @@ void main () {
 	// p.x = repeat(p.x - time * .1, .1);
 	// float tracer = sin(p.x);
 	// color.rgb = mix(background, color.rgb, color.a);
-	float tracer = sdbox(p, vec2(.9, .7));
-	tracer = smoothstep(.0, 1., .002/abs(tracer));
-	color = clamp(color, 0., 1.);
-	color = mix(color, 1.-color, tracer);
+	// float tracer = sdbox(p, vec2(.9, .7));
+	// tracer = smoothstep(.0, 1., .002/abs(tracer));
+	// color = clamp(color, 0., 1.);
+	// color = mix(color, 1.-color, tracer);
 	color += overlay;// + tracer;
 	gl_FragColor = color;
 }
