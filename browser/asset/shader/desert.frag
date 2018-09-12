@@ -8,7 +8,8 @@ void main () {
 	vec3 view = normalize(vView);
 	float shade = dot(normal, -view)*2.+1.5;
 	// shade *= dot(normal, view)*.5+.5;
-	float fade = vUv.x*.5+.5;
+	float fade = 1.-length(vUv*2.-1.);
+	fade = smoothstep(.0, .5, fade);
 	float salt = noise(vWorld * 100.);
 	float dust = abs(sin(vWorld.y*10.+time*.2+vNormal.y*10.));
 	vec3 color = vec3(0.968, 0.792, 0.372);

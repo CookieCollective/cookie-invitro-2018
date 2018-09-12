@@ -9,7 +9,7 @@ varying vec3 vColor;
 void main () {
 	float salt = random(quantity.xx*10.);
 	float pepper = random(quantity.xx*10.+vec2(.546857,.951354));
-	float size = .02+.1*salt;
+	float size = .02+.02*salt;
 	vec3 pos = position * 30.;
 	pos = normalize(pos) * 20.;
 	// pos.z *= 2.;

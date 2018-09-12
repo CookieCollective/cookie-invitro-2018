@@ -11,7 +11,7 @@ float fbm (vec2 p) {
     for (float i = 3.; i >= 1.; --i) {
         value += amplitud * noise(p);
         p *= 2.;
-        p += time*.1;
+        p += sin(length(p)-time*.5);
         amplitud *= .5;
     }
     return value;

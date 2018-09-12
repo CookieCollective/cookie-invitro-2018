@@ -48,6 +48,7 @@ export default function() {
 		uniforms = {
 			time: { value: 0 },
 			resolution: { value: [window.innerWidth, window.innerHeight] },
+			mouse: { value: [window.innerWidth/2, window.innerHeight/2] },
 			cameraPos: { value: camera.position },
 			cameraTarget: { value: controls.target },
 			frame: { value: frametarget.texture },
@@ -125,6 +126,7 @@ export default function() {
 
 		onWindowResize();
 		window.addEventListener('resize', onWindowResize, false);
+		window.addEventListener('mousemove', Mouse.onMove, false);
 		requestAnimationFrame(animate);
 		timeline.start();
 	});
@@ -181,6 +183,8 @@ export default function() {
 		uniforms.time.value = elapsed;
 		uniforms.cameraPos.value = camera.position;
 		uniforms.cameraTarget.value = controls.target;
+		uniforms.mouse.value[0] = Mouse.x;
+		uniforms.mouse.value[1] = Mouse.y;
 		keys.forEach(name => {
 			var pos = assets.animations.getPosition(name, elapsed);
 			deltas[name] = lerpArray(deltas[name], pos, .1);

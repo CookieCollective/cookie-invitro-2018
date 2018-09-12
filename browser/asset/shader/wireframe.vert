@@ -14,6 +14,6 @@ void main () {
 	// pos.yz *= rotation(t*.5);
 	pos.y += 10.;
 	// pos.x -= 20.;
-	vColor = color;// * clamp(pos.y*.1+.2, 0., 1.);
+	vColor = color * smoothstep(1., 0.5, length(pos.xz)/15.);// * clamp(pos.y*.1+.2, 0., 1.);
 	gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(pos, 1);
 }

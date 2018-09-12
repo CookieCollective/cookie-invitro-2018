@@ -34,9 +34,9 @@ void main () {
 	vNormal.xz *= rotation(a1);
 	vNormal.yz *= rotation(a2);
 
-	float a3 = quantity.x * TAU + time * .1;
+	float a3 = quantity.x * TAU + time * (.01+.2*salt);
 	pos.xz += vec2(cos(a3), sin(a3)) * 10.;
-	pos.y += 3. + sin(salt*10.) * 3.;
+	pos.y += 3. + sin(salt*10.+time * (.1+.5*pepper)) * 3.;
 	// pos.z += slide * 10.;
 
 
