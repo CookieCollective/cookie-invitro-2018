@@ -32,7 +32,7 @@ void main () {
 	// color = c;
 	// color = mix(texture2D(frame, uv), texture2D(bloom, uv), dof) + color * dof;
 	// color = mix(texture2D(frame, uv), texture2D(bloom, uv), dof) + color * dof;
-	color += texture2D(bloom, uv);
+	color += texture2D(bloom, uv) * .75;
 	// color = texture2D(frame, uv);
 
 	vec3 background = mix(vec3(1,0,0),vec3(0),uv.y);

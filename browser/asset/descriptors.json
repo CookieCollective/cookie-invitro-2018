@@ -25,7 +25,8 @@
 		},
 		"ribbon": {
 			"vertexShader": "shader/ribbon.vert",
-			"fragmentShader": "shader/ribbon.frag"
+			"fragmentShader": "shader/ribbon.frag",
+			"side": 2
 		},
 		"raymarching": {
 			"vertexShader": "shader/fullscreen.vert",

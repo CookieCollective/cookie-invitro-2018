@@ -26,7 +26,7 @@ export default function() {
 		bloom = new Bloom(frametarget.texture);
 
 		camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.01, 2000);
-		camera.position.x = 5;
+		camera.position.x = 3;
 		camera.position.y = 2;
 		camera.position.z = 0;
 
@@ -38,8 +38,8 @@ export default function() {
 		controls.enablePan = false;
 		controls.minDistance = 2.;
 		controls.maxDistance = 5.;
-		controls.minPolarAngle = Math.PI/2.;
-		controls.maxPolarAngle = Math.PI/16.+Math.PI/2.;
+		controls.minPolarAngle = -Math.PI/8.+Math.PI/2.;
+		controls.maxPolarAngle = Math.PI/8.+Math.PI/2.;
 		// controls.minAzimuthAngle
 
 		// var curveArray = assets.geometries.curve.children[0].geometry.attributes.position.array;
@@ -72,7 +72,7 @@ export default function() {
 		add(assets.shaders.star, Geometry.create(Geometry.random(1000)));
 		// add(assets.shaders.lensflare, Geometry.create(Geometry.random(100)));
 		// addWireframe(assets.shaders.constellation, [new THREE.OctahedronGeometry(1000., 4.)]);
-		// add(assets.shaders.lines, Geometry.create(Geometry.random(20), [1,50]));
+		add(assets.shaders.ribbon, Geometry.create(Geometry.random(20), [1,100]));
 		addWireframe(assets.shaders.wireframe, [cookie]);
 		add(assets.shaders.desert, [new THREE.PlaneGeometry(20,20,100,100)]);
 		add(assets.shaders.chocolat, Geometry.clone(new THREE.DodecahedronBufferGeometry(1, 0), 50));
@@ -80,16 +80,25 @@ export default function() {
 		// add(assets.shaders.raymarching);
 
 		addShape2D(assets.shaders.shape2D.clone(),
-		[.0,.0,1,.125], // rect.xyzw
+		[.0,.0,1,.25], // rect.xyzw
 		[0,0], // anchor
 		[0,0], // offset
 		makeText.createTexture([{
-			text: 'cookie demoparty',
+			text: 'cookie',
 			font: 'bebasneue_bold',
-			fillStyle: '#a3a3a3',
+			fillStyle: '#bdbdbd',
 			width: 1024,
-			height: 128,
-			fontSize: 160,
+			height: 256,
+			fontSize: 150,
+			offsetY: -60,
+			textAlign: 'center',
+			textBaseline: 'middle',
+		},{
+			text: 'demoparty',
+			font: 'bebasneue_bold',
+			fillStyle: '#bdbdbd',
+			fontSize: 85,
+			offsetY: 40,
 			textAlign: 'center',
 			textBaseline: 'middle',
 		}]));
@@ -101,10 +110,10 @@ export default function() {
 		makeText.createTexture([{
 			text: 'november 2018',
 			font: 'bebasneue_bold',
-			fillStyle: '#a3a3a3',
+			fillStyle: '#bdbdbd',
 			width: 1024,
 			height: 128,
-			fontSize: 80,
+			fontSize: 60,
 			textAlign: 'center',
 			textBaseline: 'middle',
 		}]));

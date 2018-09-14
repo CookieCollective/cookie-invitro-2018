@@ -7,21 +7,22 @@ varying vec3 vNormal, vView;
 varying vec2 vAnchor;
 
 void main () {
-	float size = .1;
-	float x = anchor.x*.5+.5;
-	// x = smoothstep(.0, .5+.5*sin(time), x);
-	float speed = .5;
-	float ratio = mod(time * speed, 1.);
-	// ratio = smoothstep(.4, 1., ratio);
-	// x = clamp(x, smoothstep(.5, 1., ratio), smoothstep(.0, .5, ratio));
-	// x = mod(x / 2. + time * speed, 1.);
-	vec3 pos = texture2D(curvePosition, vec2(x,0)).xyz;
-	vec3 next = texture2D(curvePosition, vec2(x+.01,0)).xyz;
-	vec3 right = texture2D(curveNormal, vec2(x,0)).xyz;
+	float size = .01;
 
-	vNormal = cross(normalize(pos - next), right);
+	vec3 pos = position;
 
-	pos -= right * anchor.y * size;
+	float y = anchor.y + time;
+	pos.xz *= rotation(y * 2.);
+	pos.yz *= rotation(y * 2.);
+
+	pos = normalize(pos) * 2.;
+	pos.y += 3.;
+
+	vec3 front = normalize(cameraPos - pos);
+	vec3 right = normalize(cross(front, vec3(0,1,0)));
+	vec3 up = normalize(cross(front, right));
+	pos += (up * anchor.x) * size;
+
 	vView = cameraPos - pos;
 	vAnchor = anchor;
 	gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(pos, 1);
