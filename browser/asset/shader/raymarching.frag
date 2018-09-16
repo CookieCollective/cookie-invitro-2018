@@ -65,12 +65,16 @@ float geometry (vec3 pos)
 		h = height * ratio;
 		b = blend * ratio;
 		tt = vec2(r,thin*ratio);
-		shape = smoothmin(shape, smoothmin(torus(p, tt), smoothmin(torus(p.xzy, tt), torus(p.zxy, tt), b/3.), b/3.), b/3.);
+		// shape = smoothmin(shape, smoothmin(torus(p, tt), smoothmin(torus(p.xzy, tt), torus(p.zxy, tt), b/3.), b/3.), b/3.);
 		// shape = smoothmin(shape, sdist(p, r), b);
 		// shape = smoothmin(shape, sdist(p.xz, r), b);
 		// shape = smoothmin(shape, box(p, vec3(r)), b);
 		// shape = smoothmin(shape, max(abs(p.x) - r, abs(p.y) - h), b);
+		shape = smoothmin(shape, max(max(p.x, p.y), p.z), b);
+		// shape = smoothmin(shape, max(p.x, p.y), b);
+		// shape = smoothmin(shape, p.x, b);
 	}
+	shape = max(-shape, 0.);
 	return max(shape, -sdist(pos-cameraPos, 1.));
 }
 
