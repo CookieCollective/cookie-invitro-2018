@@ -26,21 +26,22 @@ export default function() {
 		bloom = new Bloom(frametarget.texture);
 
 		camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.01, 2000);
-		camera.position.x = 3;
+		camera.position.x = 5;
 		camera.position.y = 2;
 		camera.position.z = 0;
 
 		controls = new OrbitControls(camera, renderer.domElement);
 		controls.enableDamping = true;
-		controls.dampingFactor = 0.01;
-		controls.rotateSpeed = 0.01;
-		controls.target.y = 3;
-		controls.enablePan = false;
-		controls.minDistance = 2.;
-		controls.maxDistance = 5.;
-		controls.minPolarAngle = -Math.PI/8.+Math.PI/2.;
-		controls.maxPolarAngle = Math.PI/8.+Math.PI/2.;
-		// controls.minAzimuthAngle
+		// controls.dampingFactor = 0.01;
+		// controls.rotateSpeed = 0.01;
+		controls.dampingFactor = 0.1;
+		controls.rotateSpeed = 0.1;
+		// controls.target.y = 3;
+		// controls.enablePan = false;
+		// controls.minDistance = 2.;
+		// controls.maxDistance = 5.;
+		// controls.minPolarAngle = -Math.PI/8.+Math.PI/2.;
+		// controls.maxPolarAngle = Math.PI/8.+Math.PI/2.;
 
 		// var curveArray = assets.geometries.curve.children[0].geometry.attributes.position.array;
 		// generateCurve(curveArray, assets.shaders.curve, scene);
@@ -66,6 +67,9 @@ export default function() {
 		uniformsToUpdate = [];
 
 		assets.shaders.render.uniforms = uniforms;
+		add(assets.shaders.raymarching);
+
+/*
 		var cookie = assets.geometries.cookie;
 		// var cookieAttributes = Geometry.create(cookie.attributes);
 		// add(assets.shaders.points, Geometry.create(Geometry.random(1000)));
@@ -76,8 +80,6 @@ export default function() {
 		addWireframe(assets.shaders.wireframe, [cookie]);
 		add(assets.shaders.desert, [new THREE.PlaneGeometry(20,20,100,100)]);
 		add(assets.shaders.chocolat, Geometry.clone(new THREE.DodecahedronBufferGeometry(1, 0), 50));
-
-		// add(assets.shaders.raymarching);
 
 		addShape2D(assets.shaders.shape2D.clone(),
 		[.0,.0,1,.25], // rect.xyzw
@@ -132,7 +134,7 @@ export default function() {
 			textAlign: 'center',
 			textBaseline: 'middle',
 		}]));
-
+*/
 		onWindowResize();
 		window.addEventListener('resize', onWindowResize, false);
 		window.addEventListener('mousemove', Mouse.onMove, false);

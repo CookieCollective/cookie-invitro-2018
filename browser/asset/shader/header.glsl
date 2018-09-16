@@ -19,6 +19,11 @@ vec3 look (vec3 eye, vec3 target, vec2 anchor) {
     vec3 up = normalize(cross(right, forward));
     return normalize(forward + right * anchor.x + up * anchor.y);
 }
+float sdCapsule( vec3 p, vec3 a, vec3 b, float r ) {
+    vec3 pa = p - a, ba = b - a;
+    float h = clamp( dot(pa,ba)/dot(ba,ba), 0.0, 1.0 );
+    return length( pa - ba*h ) - r;
+}
 
 
 // https://www.shadertoy.com/view/4dS3Wd

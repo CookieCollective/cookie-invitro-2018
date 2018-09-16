@@ -16,13 +16,13 @@ void main () {
 	m.y *= -1.;
 	vec2 p = uv;
 	p.x *= resolution.x/resolution.y;
-	float radius = 10. * length(m);// + 10. * sin(atan(p.y,p.x) * 1000.);
-	vec2 offset = normalize(-m) * unit * radius;
-	color.r += texture2D(blur, uv-offset).r;
-	offset = normalize(-m) * unit * radius * 2.;
-	color.g += texture2D(blur, uv-offset).g;
-	offset = normalize(-m) * unit * radius * 3.;
-	color.b += texture2D(blur, uv-offset).b;
+	// float radius = 10. * length(m);// + 10. * sin(atan(p.y,p.x) * 1000.);
+	// vec2 offset = normalize(-m) * unit * radius;
+	// color.r += texture2D(blur, uv-offset).r;
+	// offset = normalize(-m) * unit * radius * 2.;
+	// color.g += texture2D(blur, uv-offset).g;
+	// offset = normalize(-m) * unit * radius * 3.;
+	// color.b += texture2D(blur, uv-offset).b;
 
 	// color = mix(texture2D(frame, uv), texture2D(blur, uv), dof);
 	// color = texture2D(frame, uv) + color * dof;
@@ -32,7 +32,7 @@ void main () {
 	// color = c;
 	// color = mix(texture2D(frame, uv), texture2D(bloom, uv), dof) + color * dof;
 	// color = mix(texture2D(frame, uv), texture2D(bloom, uv), dof) + color * dof;
-	color += texture2D(bloom, uv) * .75;
+	color += texture2D(bloom, uv);// * .75;
 	// color = texture2D(frame, uv);
 
 	vec3 background = mix(vec3(1,0,0),vec3(0),uv.y);
