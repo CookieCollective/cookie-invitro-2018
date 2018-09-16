@@ -1,7 +1,9 @@
 
 uniform vec3 cameraPos, cameraTarget;
 uniform vec2 resolution;
-uniform float time, rotation1, rotation2, rotation3, blend, range, radius, height, thin, count;
+uniform float time, blend, range, radius, height, thin, count;
+uniform float kaleidoX, kaleidoY, kaleidoZ;
+uniform float rotation1, rotation2, rotation3, rotation4, rotation5, rotation6;
 
 // Geometry
 // float range = .8;
@@ -31,72 +33,45 @@ float geometry (vec3 pos)
 {
 	float scene, shape, h, r, rr, b, c, hole, crop;
 	scene = shape = hole = crop = 10.;
+	// pos /= .34*sqrt(dot(pos*pos,pos*pos));
 	vec3 p = pos;
+	vec3 pp;
 	vec2 tt, e;
 	c = ceil(count);
 	float wave1 = sin(-time+length(pos));
+	// p = repeat(p, 1.);
+	// shape = box(p, vec3(radius));
+	// shape = min(sdist(p.yz, radius), sdist(p.xz, radius));
 	for (float index = 20.; index > 0.; --index) {
 		if (20. - index > c) break;
-		float ratio = index / c;
+		float ratio = (index - (20.-c)) / c;
 		
 		// easing
 		ratio *= ratio;
 		float iratio = 1.-ratio;
-		float blend1 = smoothstep(.9, .0, ratio);
-		float blend2 = smoothstep(.5, 1., ratio);
 		
-		// domain reptition and translation offset
-		float salt = random(vec2(ratio)*sign(p.xz));
-		p.x = abs(p.x) - range * ratio;// * (.5+.5*wave1);
+		pp = abs(p) - range * ratio;
+		p.x = mix(p.x, pp.x, kaleidoX);
+		p.y = mix(p.y, pp.y, kaleidoY);
+		p.z = mix(p.z, pp.z, kaleidoZ);
+		// p.xz = abs(p.xz) - range * ratio;
 		
-		// rotations
-		// p.xz *= rot(PIHALF + ratio * TAU + time * .1);
-		// p.yz *= rot(-PIHALF * ratio);
-		// p.xy *= rot(ratio * TAU + time * blend2 * .1);
-		p.xy *= rot((rotation3*ratio));
-		p.xz *= rot((rotation1*ratio));
-		p.yz *= rot((rotation2*ratio));
-		// p.yz *= rot(sin(-time+length(p))*.2*ratio);
+		p.xy *= rot(rotation3*ratio+rotation6);
+		p.xz *= rot(rotation1*ratio+rotation4);
+		p.yz *= rot(rotation2*ratio+rotation5);
 
-		// p.xz *= rot(salt);
-		// p.x += sin(ratio*TAU+time) * .1 * ratio;
-		// p.yz *= rot(time*.5);
-		// p.xz *= rot(sin(time*.5) * PI);
-		// p.yx *= rot(PIHALF);
-
-		// scene = min(scene, max(p.x,p.z));
-		// scene = min(scene, max(abs(p.x)-.1*ratio, abs(p.y)-2.*iratio));
-		// scene = smoothmin(scene, box(p, vec3(radius * ratio)), blend * ratio);
 		r = radius * ratio;
-		rr = r * (1.-thin);
+		// rr = r * (1.-thin);
 		h = height * ratio;
-		b = blend * ratio;// * (1. + .5 * wave1);
+		b = blend * ratio;
 		tt = vec2(r,thin*ratio);
-		// shape = smoothmin(torus(p, tt), smoothmin(torus(p.xzy, tt), torus(p.zxy, tt), b/3.), b/3.);
-		// shape = smoothmin(sdist(p.xz, r * thin), shape, b/3.);
-		// shape = max(max(abs(p.x)-h, sdist(p.xy, r)), -sdist(p.xy, rr));
-		// shape = max(max(abs(p.z)-h, sdist(p.xy, r)), -sdist(p.xy, rr));
-		// shape = max(max(abs(p.x)-h, sdist(p.xy, r)), -sdist(p.xy, rr));
-		shape = smoothmin(smoothmin(sdist(p.yz, r), sdist(p.xz, r), b), sdist(p.yx, r), b);
-		crop = box(p, vec3(h));
-		// hole = min(max(crop, min(min(sdist(p.yz, rr), sdist(p.xz, rr)), sdist(p.yx, rr))), hole);
-		hole = min(hole, smoothmin(smoothmin(sdCapsule(p, e.xyy, -e.xyy, rr), sdCapsule(p, e.yxy, -e.yxy, rr), b), sdCapsule(p, e.yyx, -e.yyx, rr), b));
-		e = vec2(h,0);
-		// hole = min(hole, sdCapsule(p, p+e.xyy, p-e.xyy, rr));
-		shape = max(crop, shape);
-		// scene = min(shape, scene);
-		scene = smoothmin(shape, scene, b);
-		// shape = min(
-		// 						max(max(abs(p.x)-h, sdist(p.yz, r)), -sdist(p.yz, rr)),
-		// 				min(max(max(abs(p.z)-h, sdist(p.yx, r)), -sdist(p.yx, rr)),
-		// 						max(max(abs(p.y)-h, sdist(p.xz, r)), -sdist(p.xz, rr))));
-		// shape = max(max(p.x, p.y), p.z);
-		// scene = smoothmin(scene, shape, b);
+		shape = smoothmin(shape, smoothmin(torus(p, tt), smoothmin(torus(p.xzy, tt), torus(p.zxy, tt), b/3.), b/3.), b/3.);
+		// shape = smoothmin(shape, sdist(p, r), b);
+		// shape = smoothmin(shape, sdist(p.xz, r), b);
+		// shape = smoothmin(shape, box(p, vec3(r)), b);
+		// shape = smoothmin(shape, max(abs(p.x) - r, abs(p.y) - h), b);
 	}
-	scene = max(-hole, scene);
-	// scene = max(scene, box(pos, vec3(10)));
-	scene = max(scene, -sdist(pos-cameraPos, 1.));
-	return scene;
+	return max(shape, -sdist(pos-cameraPos, 1.));
 }
 
 vec3 getNormal (vec3 p) {

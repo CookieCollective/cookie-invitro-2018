@@ -63,13 +63,21 @@ export default function() {
 			uniforms[name] = {value:[0,0,0]};
 			deltas[name] = [0,0,0];
 		});
-		params.forEach(name =>  uniforms[name] = {value:parameters.debug[name]})
+		params.forEach(name => {
+			var param = parameters.debug[name];
+			var type = typeof(param);
+			if (type == 'number') {
+				uniforms[name] = { value: param };
+			} else if (type == 'boolean') {
+				uniforms[name] = { value: param?1:0 };
+			}
+		})
+		// params.forEach(name => console.log(parameters.debug[name]))
 		uniformsToUpdate = [];
 
 		assets.shaders.render.uniforms = uniforms;
-		add(assets.shaders.raymarching);
+		// add(assets.shaders.raymarching);
 
-/*
 		var cookie = assets.geometries.cookie;
 		// var cookieAttributes = Geometry.create(cookie.attributes);
 		// add(assets.shaders.points, Geometry.create(Geometry.random(1000)));
@@ -134,7 +142,7 @@ export default function() {
 			textAlign: 'center',
 			textBaseline: 'middle',
 		}]));
-*/
+		
 		onWindowResize();
 		window.addEventListener('resize', onWindowResize, false);
 		window.addEventListener('mousemove', Mouse.onMove, false);
@@ -201,7 +209,16 @@ export default function() {
 			deltas[name] = lerpArray(deltas[name], pos, .1);
 			uniforms[name].value = pos;
 		});
-		params.forEach(name =>  uniforms[name].value = parameters.debug[name]);
+		// params.forEach(name =>  uniforms[name].value = parameters.debug[name]);
+		params.forEach(name => {
+			var param = parameters.debug[name];
+			var type = typeof(param);
+			if (type == 'number') {
+				uniforms[name].value = param;
+			} else if (type == 'boolean') {
+				uniforms[name].value = param?1:0;
+			}
+		})
 		uniformsToUpdate.forEach(item => item.time.value = elapsed);
 		
 		renderer.render(scene, camera, frametarget, true);
