@@ -76,9 +76,8 @@ export default function() {
 		uniformsToUpdate = [];
 
 		assets.shaders.render.uniforms = uniforms;
-		add(assets.shaders.raymarching);
+		// add(assets.shaders.raymarching);
 
-/*
 		var cookie = assets.geometries.cookie;
 		// var cookieAttributes = Geometry.create(cookie.attributes);
 		// add(assets.shaders.points, Geometry.create(Geometry.random(1000)));
@@ -143,7 +142,7 @@ export default function() {
 			textAlign: 'center',
 			textBaseline: 'middle',
 		}]));
-*/
+
 		onWindowResize();
 		window.addEventListener('resize', onWindowResize, false);
 		window.addEventListener('mousemove', Mouse.onMove, false);
