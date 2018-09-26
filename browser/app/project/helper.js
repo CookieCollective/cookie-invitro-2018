@@ -1,8 +1,48 @@
+
 import * as THREE from 'three.js';
 import FrameBuffer from '../engine/framebuffer';
 import Geometry from '../engine/geometry';
+import { uniforms, uniformsToUpdate } from './uniform';
+import { engine } from './engine';
 
-export function generateCurve (positions, material, scene) {
+export function add(material, geometries, sceneLayer) {
+	material.uniforms = uniforms;
+	sceneLayer = sceneLayer || engine.scene;
+	geometries.forEach(geometry => {
+		var mesh = new THREE.Mesh(geometry, material);
+		mesh.frustumCulled = false;
+		sceneLayer.add(mesh);
+	});
+}
+
+export function addWireframe(material, geometries, sceneLayer) {
+	material.uniforms = uniforms;
+	sceneLayer = sceneLayer || engine.scene;
+	geometries.forEach(geometry => {
+		var mesh = new THREE.LineSegments(new THREE.EdgesGeometry(geometry), material);
+		mesh.frustumCulled = false;
+		sceneLayer.add(mesh);
+	});
+}
+
+export function addShape2D(material, rect, anchor, offset, texture, sceneLayer) {
+	rect = rect || [0,0,1,1];
+	anchor = anchor || [0,0];
+	offset = offset || [0,0];
+	sceneLayer = sceneLayer || engine.scene;
+	var mesh = new THREE.Mesh(new THREE.PlaneGeometry(1,1), material);
+	mesh.frustumCulled = false;
+	sceneLayer.add(mesh);
+	material.uniforms.resolution = { value: [window.innerWidth, window.innerHeight] };
+	material.uniforms.rect = { value: rect };
+	material.uniforms.anchor = { value: anchor };
+	material.uniforms.offset = { value: offset };
+	material.uniforms.texture = { value: texture };
+	material.uniforms.time = { value: 0 };
+	uniformsToUpdate.push(material.uniforms);
+}
+
+export function generateCurve (positions, material, uniformsToUpdate) {
 
 	// calculate normals of the curve
 	// Parallel Transport Approach to Curve Framing
@@ -48,10 +88,10 @@ export function generateCurve (positions, material, scene) {
 	material.uniforms.curvePosition = { value: FrameBuffer.createDataTexture(dataArray, 3) };
 	material.uniforms.curveNormal = { value: FrameBuffer.createDataTexture(dataNormalArray, 3) };
 
+	sceneLayer = sceneLayer || engine.scene;
 	Geometry.create(Geometry.random(1), [dataArray.length/3, 1]).forEach(geometry => {
 		var mesh = new THREE.Mesh(geometry, material);
 		mesh.frustumCulled = false;
-		scene.add(mesh);
+		sceneLayer.add(mesh);
 	});
 }
-
