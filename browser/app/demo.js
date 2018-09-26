@@ -9,7 +9,6 @@ import { engine, initEngine } from './project/engine';
 import { uniforms, initUniforms, updateUniforms, resizeUniforms } from './project/uniform';
 import { addText } from './project/text';
 import { gui } from './engine/gui';
-import * as timeline from './engine/timeline';
 import Geometry from './engine/geometry';
 import Mouse from './engine/mouse';
 
@@ -46,13 +45,11 @@ export default function() {
 		window.addEventListener('resize', onWindowResize, false);
 		window.addEventListener('mousemove', Mouse.onMove, false);
 		requestAnimationFrame(animate);
-		timeline.start();
 	});
 
 	function animate(elapsed) {
 		requestAnimationFrame(animate);
 		elapsed /= 1000.;
-		// elapsed = timeline.getTime();
 		engine.controls.update();
 
 		updateUniforms(elapsed);
@@ -60,7 +57,6 @@ export default function() {
 		renderer.render(engine.scene, engine.camera, engine.frametarget, true);
 		engine.bloom.render(renderer);
 		renderer.render(engine.framerender, engine.camera);
-		// renderer.render(engine.scene, engine.camera);
 	}
 
 	function onWindowResize() {
