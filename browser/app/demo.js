@@ -34,7 +34,7 @@ export default function() {
 		engine.controls.maxPolarAngle = Math.PI/8.+Math.PI/2.;
 
 		// add(assets.shaders.raymarching);
-
+		
 		var cookie = assets.geometries.cookie;
 		add(assets.shaders.star, Geometry.create(Geometry.random(1000)));
 		addWireframe(assets.shaders.wireframe, [cookie]);
