@@ -18,6 +18,7 @@ float fbm (vec2 p) {
 }
 
 void displace (inout vec3 pos) {
+	return;
 	vec2 p = uv*2.-1.;
 	// float fade = (1.-abs(p.x))*(1.-abs(p.y));
 	float fade = abs(p.x)*abs(p.y);

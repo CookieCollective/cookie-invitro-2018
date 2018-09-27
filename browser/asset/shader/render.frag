@@ -1,10 +1,23 @@
 
-uniform sampler2D frame, frameUI, curve, bloom, blur;
+uniform sampler2D frame, frameUI, curve, bloom, blur, depth;
 uniform vec2 resolution, mouse;
-uniform float time;
+uniform float time, cameraNear, cameraFar;
 varying vec2 vUv;
 
 float sdbox (vec2 p, vec2 r) { vec2 d = abs(p)-r; return max(d.x, d.y); }
+
+float viewZToOrthographicDepth(const in float viewZ, const in float near, const in float far) {
+	return (viewZ + near) / (near - far);
+}
+float perspectiveDepthToViewZ(const in float invClipZ, const in float near, const in float far) {
+	return (near * far) / ((far - near) * invClipZ - far);
+}
+
+float readDepth(sampler2D depthSampler, vec2 coord) {
+	float fragCoordZ = texture2D(depthSampler, coord).x;
+	float viewZ = perspectiveDepthToViewZ(fragCoordZ, cameraNear, cameraFar);
+	return viewZToOrthographicDepth(viewZ, cameraNear, cameraFar);
+}
 
 void main () {
 	vec2 uv = vUv;
@@ -33,7 +46,9 @@ void main () {
 	// color = mix(texture2D(frame, uv), texture2D(bloom, uv), dof) + color * dof;
 	// color = mix(texture2D(frame, uv), texture2D(bloom, uv), dof) + color * dof;
 	color += texture2D(bloom, uv);// * .75;
-	// color = texture2D(frame, uv);
+	color = texture2D(frame, uv);
+	float z = readDepth(depth, uv);
+	color = mix(color, vec4(0.9, 0.9, 0.8, 1.), smoothstep(0., 0.005, z));
 
 	vec3 background = mix(vec3(1,0,0),vec3(0),uv.y);
 	// uv.x = (uv.x-.5)*resolution.x/resolution.y+.5;
@@ -42,8 +57,8 @@ void main () {
 	p = uv * 2. - 1.;
 	// color *= 1.-(abs(p.x)*abs(p.x)*abs(p.x)*abs(p.x));
 	// color *= 1.-(abs(p.y)*abs(p.y)*abs(p.y)*abs(p.y));
-	color *= 1.+.1*sin(p.y*1000.);
-	color *= 1.+.1*random(p);
+	//color *= 1.+.1*sin(p.y*1000.);
+	//color *= 1.+.1*random(p);
 	// float lod = 8.;
 	// float salt = random(floor(uv.xx*lod)/lod);
 	// float x = mod(uv.x * 10. + salt, 1.);
