@@ -19,7 +19,7 @@ export default function() {
 		initUniforms();
 
 		engine.camera.position.x = 5;
-		engine.camera.position.y = 2;
+		engine.camera.position.y = 3;
 		engine.camera.position.z = 0;
 
 		engine.controls.enableDamping = true;

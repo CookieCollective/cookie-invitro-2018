@@ -6,17 +6,17 @@ import { generateCurve, add, addWireframe, addShape2D } from './helper';
 export function addText () {
 
 	addShape2D(assets.shaders.shape2D.clone(),
-	[.0,.0,1,.25], // rect.xyzw
+	[.0,.0,1,1], // rect.xyzw
 	[0,0], // anchor
-	[0,60], // offset
+	[0,40], // offset
 	makeText.createTexture([{
 		text: 'cookie',
 		font: 'bebasneue_bold',
 		fillStyle: '#bdbdbd',
 		width: 1024,
-		height: 256,
+		height: 1024,
 		fontSize: 150,
-		offsetY: -60,
+		offsetY: -90,
 		textAlign: 'center',
 		textBaseline: 'middle',
 	},{
@@ -24,69 +24,31 @@ export function addText () {
 		font: 'bebasneue_bold',
 		fillStyle: '#bdbdbd',
 		fontSize: 85,
-		offsetY: 35,
-		textAlign: 'center',
-		textBaseline: 'middle',
-	}]));
-
-	addShape2D(assets.shaders.shape2D.clone(),
-	[0,0,1,.125], // rect.xyzw
-	[0,0], // anchor
-	[0,-60], // offset
-	makeText.createTexture([{
+		offsetY: 0,
+	},{
 		text: 'NOV 30 - DEC 1, 2018',
 		font: 'bebasneue_bold',
 		fillStyle: '#bdbdbd',
-		width: 1024,
-		height: 128,
 		fontSize: 65,
-		textAlign: 'center',
-		textBaseline: 'middle',
-	}]));
-
-	addShape2D(assets.shaders.shape2D.clone(),
-	[0,0,1,.125], // rect.xyzw
-	[0,0], // anchor
-	[0,-130], // offset
-	makeText.createTexture([{
+		offsetY: 80,
+	},{
 		text: 'AT FOLIE NUMERIQUE',
 		font: 'bebasneue_bold',
 		fillStyle: '#bdbdbd',
-		width: 1024,
-		height: 128,
 		fontSize: 50,
-		textAlign: 'center',
-		textBaseline: 'middle',
-	}]));
-
-	addShape2D(assets.shaders.shape2D.clone(),
-	[0,0,1,.125], // rect.xyzw
-	[0,0], // anchor
-	[0,-180], // offset
-	makeText.createTexture([{
+		offsetY: 150,
+	},{
 		text: 'PARIS, FRANCE',
 		font: 'bebasneue_bold',
 		fillStyle: '#bdbdbd',
-		width: 1024,
-		height: 128,
 		fontSize: 70,
-		textAlign: 'center',
-		textBaseline: 'middle',
-	}]));
-
-	addShape2D(assets.shaders.shape2D.clone(),
-	[0,0,1,.125], // rect.xyzw
-	[0,0], // anchor
-	[0,-260], // offset
-	makeText.createTexture([{
+		offsetY: 200,
+	},{
 		text: 'more info coming soon',
 		font: 'bebasneue_bold',
 		fillStyle: '#a3a3a3',
-		width: 1024,
-		height: 128,
 		fontSize: 40,
-		textAlign: 'center',
-		textBaseline: 'middle',
+		offsetY: 280,
 	}]));
 
 }
