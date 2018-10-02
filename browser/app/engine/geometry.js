@@ -79,7 +79,6 @@ export default class Geometry {
 	static clone (geometryToClone, instances) {
 		var geometries = [];
 		var numberIndex = 0;
-		console.log(geometryToClone)
 		var arrays = {};
 		var quantities = [];
 		var indices = [];
