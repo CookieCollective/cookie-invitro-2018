@@ -11,7 +11,7 @@ float fbm (vec2 p) {
     for (float i = 3.; i >= 1.; --i) {
         value += amplitud * noise(p);
         p *= 2.;
-        p += sin(length(p)-time*.5);
+        // p += sin(length(p)-time*.5);
         amplitud *= .5;
     }
     return value;
@@ -19,19 +19,16 @@ float fbm (vec2 p) {
 
 void displace (inout vec3 pos) {
 	vec2 p = uv*2.-1.;
-	// float fade = (1.-abs(p.x))*(1.-abs(p.y));
 	float fade = abs(p.x)*abs(p.y);
-	float noisy = fbm(pos.xz*.25);
+	float noisy = fbm(pos.xz*.1);
 	noisy = abs(noisy*2.-1.);
-	// noisy = clamp(.01/noisy, 0., 1.);
-	pos.y += noisy - fade;// * (.5 + fade) + fade;
+	pos.y += noisy * 2.;
 }
 
 void main () {
 	vec3 pos = position;
 	pos.xyz = vec3(pos.x, pos.z, -pos.y);
-	pos.y -= 2.;
-	vec2 delta = vec2(.5,0);
+	vec2 delta = vec2(2.,0);
 	vec3 north = pos + delta.yyx;
 	vec3 south = pos - delta.yyx;
 	vec3 east = pos + delta.xyy;

@@ -7,6 +7,11 @@ const float PIHALF = 1.57079;
 const float PIQUART = 0.785397;
 const float HALF3PI = 4.71238;
 
+const vec3 blue1 = vec3(0.772, 0.905, 0.929);
+const vec3 orange1 = vec3(0.968, 0.898, 0.733);
+
+#define getSunLight(sun) clamp(dot(normalize(sun), vec3(0,1,0))*4., 0., 1.)
+
 #define repeat(p,r) (mod(p,r)-r/2.)
 #define sdist(p,r) (length(p)-r)
 float box (vec3 p, vec3 b) { vec3 d = abs(p) - b; return min(max(d.x,max(d.y,d.z)),0.0) + length(max(d,0.0)); }

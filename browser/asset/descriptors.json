@@ -3,9 +3,11 @@
 	"fonts": {
 	},
 	"textures": {
+		"satelitte": { "file" : "image/satelitte.png" }
 	},
 	"geometries": {
-		"cookie": { "file" : "mesh/cookie.ply" }
+		"cookie": { "file" : "mesh/cookie.ply" },
+		"satelitte": { "file" : "mesh/satelitte.obj" }
 	},
 	"shaders": {
 		"wireframe": {
@@ -23,6 +25,24 @@
 		"chocolat": {
 			"vertexShader": "shader/chocolat.vert",
 			"fragmentShader": "shader/chocolat.frag"
+		},
+		"floor": {
+			"vertexShader": "shader/floor.vert",
+			"fragmentShader": "shader/floor.frag"
+		},
+		"satelitte": {
+			"vertexShader": "shader/satelitte.vert",
+			"fragmentShader": "shader/satelitte.frag"
+		},
+		"sky": {
+			"vertexShader": "shader/sky.vert",
+			"fragmentShader": "shader/sky.frag",
+			"side": 1
+		},
+		"sun": {
+			"vertexShader": "shader/sun.vert",
+			"fragmentShader": "shader/sun.frag",
+			"transparent": true
 		},
 		"shape2D": {
 			"vertexShader": "shader/shape2D.vert",

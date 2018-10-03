@@ -37,6 +37,8 @@ export function initUniforms () {
 			uniforms[name] = { value: param?1:0 };
 		}
 	})
+
+	uniforms.textureSatelitte = { value: assets.textures.satelitte };
 	assets.shaders.render.uniforms = uniforms;
 	uniforms.frame.value = engine.frametarget.texture;
 	uniforms.blur.value = engine.bloom.blurTarget.texture;

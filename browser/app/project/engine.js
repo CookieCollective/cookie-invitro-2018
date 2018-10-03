@@ -8,6 +8,7 @@ import Bloom from '../libs/bloom/bloom';
 export var engine = {
 	scene: new THREE.Scene(),
 	camera: new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.01, 2000),
+	target: new THREE.Vector3(),
 	controls: null,
 	framerender: null,
 	frametarget: new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight),

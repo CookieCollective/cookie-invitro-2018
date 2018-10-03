@@ -3,6 +3,7 @@ import * as THREE from 'three.js';
 import assets from './engine/assets';
 import renderer from './engine/renderer';
 import parameters from './engine/parameters';
+import * as timeline from './engine/timeline';
 import { clamp, lerp, lerpArray, lerpVector, lerpVectorArray, saturate } from './engine/misc';
 import { generateCurve, add, addWireframe, addShape2D } from './project/helper';
 import { engine, initEngine } from './project/engine';
@@ -35,22 +36,37 @@ export default function() {
 		// add(assets.shaders.raymarching);
 		
 		var cookie = assets.geometries.cookie;
+		var satelitte = assets.geometries.satelitte;
 		add(assets.shaders.star, Geometry.create(Geometry.random(1000)));
-		addWireframe(assets.shaders.wireframe, [cookie]);
-		add(assets.shaders.desert, [new THREE.PlaneGeometry(20,20,100,100)]);
-		add(assets.shaders.chocolat, Geometry.clone(new THREE.DodecahedronBufferGeometry(1, 0), 50));
-		addText();
+		add(assets.shaders.satelitte, [satelitte.children[0].geometry]);
+		// addWireframe(assets.shaders.wireframe, [cookie]);
+		add(assets.shaders.desert, [new THREE.PlaneGeometry(100,100,100,100)]);
+		// add(assets.shaders.floor, [new THREE.PlaneGeometry(1000,1000,1,1)]);
+		add(assets.shaders.sun, [new THREE.DodecahedronBufferGeometry(1, 2)]);
+		add(assets.shaders.sky, [new THREE.DodecahedronBufferGeometry(1000, 0)]);
+		// add(assets.shaders.chocolat, Geometry.clone(new THREE.DodecahedronBufferGeometry(1, 0), 50));
+		// addText();
 
 		onWindowResize();
 		window.addEventListener('resize', onWindowResize, false);
 		window.addEventListener('mousemove', Mouse.onMove, false);
 		requestAnimationFrame(animate);
+		timeline.start();
 	});
 
 	function animate(elapsed) {
 		requestAnimationFrame(animate);
-		elapsed /= 1000.;
-		engine.controls.update();
+		// elapsed /= 1000.;
+		elapsed = timeline.getTime();
+
+		// engine.controls.update();
+		var array;
+		array = assets.animations.getPosition('camera', elapsed);
+		engine.camera.position.set(array[0], array[1], array[2]);
+		
+		array = assets.animations.getPosition('target', elapsed);
+		engine.target.set(array[0], array[1], array[2]);
+		engine.camera.lookAt(engine.target);
 
 		updateUniforms(elapsed);
 		
