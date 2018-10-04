@@ -1,4 +1,5 @@
 
+import * as THREE from 'three.js';
 import parameters from '../engine/parameters';
 import assets from '../engine/assets';
 import { clamp, lerp, lerpArray, lerpVector, lerpVectorArray, saturate } from '../engine/misc';
@@ -10,16 +11,28 @@ var deltas = {};
 var params = [];
 
 export var uniformsToUpdate = [];
-export var uniforms = {
-	time: { value: 0 },
-	resolution: { value: [window.innerWidth, window.innerHeight] },
-	mouse: { value: [window.innerWidth/2, window.innerHeight/2] },
-	cameraPos: { value: [0,0,0] },
-	cameraTarget: { value: [0,0,0] },
-	frame: { value: 0 }, 
-	blur: { value: 0 }, 
-	bloom: { value: 0 }, 
-}
+// export var uniforms = {
+// 			time: { value: 0 },
+// 			resolution: { value: [window.innerWidth, window.innerHeight] },
+// 			mouse: { value: [window.innerWidth/2, window.innerHeight/2] },
+// 			cameraPos: { value: [0,0,0] },
+// 			cameraTarget: { value: [0,0,0] },
+// 			frame: { value: 0 }, 
+// 			blur: { value: 0 }, 
+// 			bloom: { value: 0 }, 
+// 		}
+export var uniforms = THREE.UniformsUtils.merge([
+        THREE.UniformsLib["lights"],
+    {
+			time: { value: 0 },
+			resolution: { value: [window.innerWidth, window.innerHeight] },
+			mouse: { value: [window.innerWidth/2, window.innerHeight/2] },
+			cameraPos: { value: [0,0,0] },
+			cameraTarget: { value: [0,0,0] },
+			frame: { value: 0 }, 
+			blur: { value: 0 }, 
+			bloom: { value: 0 }, 
+		}]);
 
 export function initUniforms () {
 	keys = Object.keys(assets.animations.actions);

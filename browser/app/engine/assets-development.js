@@ -26,6 +26,14 @@ const assets = {
 	load,
 };
 
+function replaceThreeChunkFn(a, b) {
+    return THREE.ShaderChunk[b] + '\n';
+}
+
+function shaderParse(glsl) {
+    return glsl.replace(/\/\/\s?chunk\(\s?(\w+)\s?\);/g, replaceThreeChunkFn);
+}
+
 function load(callback) {
 	register([descriptors.animations], () => {
 		assets.animations = makeAnimations(JSON.parse(files[descriptors.animations]));
@@ -85,12 +93,12 @@ function load(callback) {
 			register([vertexShaderUrl, fragmentShaderUrl], () => {
 				if (assets.shaders[name] === undefined) {
 					assets.shaders[name] = new THREE.ShaderMaterial(Object.assign({}, descriptors.shaders[name], {
-						vertexShader: files['shader/header.glsl'] + files[vertexShaderUrl],
-						fragmentShader: files['shader/header.glsl'] + files[fragmentShaderUrl],
+						vertexShader: files['shader/header.glsl'] + shaderParse(files[vertexShaderUrl]),
+						fragmentShader: files['shader/header.glsl'] + shaderParse(files[fragmentShaderUrl]),
 					}));
 				} else {
-					assets.shaders[name].vertexShader = files['shader/header.glsl'] + files[vertexShaderUrl];
-					assets.shaders[name].fragmentShader = files['shader/header.glsl'] + files[fragmentShaderUrl];
+					assets.shaders[name].vertexShader = files['shader/header.glsl'] + shaderParse(files[vertexShaderUrl]);
+					assets.shaders[name].fragmentShader = files['shader/header.glsl'] + shaderParse(files[fragmentShaderUrl]);
 					assets.shaders[name].needsUpdate = true;
 				}
 				assets.shaders[name].url = [vertexShaderUrl, fragmentShaderUrl];

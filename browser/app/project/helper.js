@@ -8,9 +8,19 @@ import { engine } from './engine';
 export function add(material, geometries, sceneLayer) {
 	material.uniforms = uniforms;
 	sceneLayer = sceneLayer || engine.scene;
+	material.lights = true;
 	geometries.forEach(geometry => {
 		var mesh = new THREE.Mesh(geometry, material);
 		mesh.frustumCulled = false;
+    // mesh.castShadow = true;
+    // mesh.receiveShadow = true;
+    if (material.vertexShader != null) {
+		  mesh.customDepthMaterial = new THREE.ShaderMaterial({
+		    vertexShader: material.vertexShader,
+		    fragmentShader: THREE.ShaderLib.basic.fragmentShader,
+		    uniforms: material.uniforms
+		  });
+		}
 		sceneLayer.add(mesh);
 	});
 }

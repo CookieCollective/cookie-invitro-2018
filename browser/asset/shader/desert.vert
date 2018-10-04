@@ -5,6 +5,9 @@ uniform vec3 cameraPos;
 varying vec3 vColor, vNormal, vView, vWorld;
 varying vec2 vUv, vScreen;
 
+// chunk(fog_pars_vertex);
+// chunk(shadowmap_pars_vertex);
+
 float fbm (vec2 p) {
     float value = 0.0;
     float amplitud = .5;
@@ -43,6 +46,8 @@ void main () {
 	vColor = color;
 	vUv = uv;
 	vWorld = pos;
-	gl_Position = projectionMatrix * viewMatrix * vec4(pos, 1);
+  vec4 worldPosition = modelMatrix * vec4(pos, 1.0);
+  // chunk(shadowmap_vertex);
+	gl_Position = projectionMatrix * viewMatrix * worldPosition;
 	vScreen = gl_Position.xy;
 }
