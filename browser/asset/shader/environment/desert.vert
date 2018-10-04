@@ -22,10 +22,11 @@ float fbm (vec2 p) {
 
 void displace (inout vec3 pos) {
 	vec2 p = uv*2.-1.;
-	float fade = abs(p.x)*abs(p.y);
+	float d = length(p);
+	float fade = smoothstep(.05,.2,d) * smoothstep(1., .9,d);
 	float noisy = fbm(pos.xz*.1);
 	noisy = abs(noisy*2.-1.);
-	pos.y += noisy * 2.;
+	pos.y += noisy * 2. * fade;
 }
 
 void main () {

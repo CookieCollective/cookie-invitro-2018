@@ -9,6 +9,7 @@ export function add(material, geometries, sceneLayer) {
 	material.uniforms = uniforms;
 	sceneLayer = sceneLayer || engine.scene;
 	material.lights = true;
+	var meshes = [];
 	geometries.forEach(geometry => {
 		var mesh = new THREE.Mesh(geometry, material);
 		mesh.frustumCulled = false;
@@ -21,8 +22,10 @@ export function add(material, geometries, sceneLayer) {
 		    uniforms: material.uniforms
 		  });
 		}
+		meshes.push(mesh);
 		sceneLayer.add(mesh);
 	});
+	return meshes;
 }
 
 export function addWireframe(material, geometries, sceneLayer) {

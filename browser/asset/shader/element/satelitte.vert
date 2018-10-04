@@ -9,7 +9,7 @@ varying vec3 vNormal, vView;
 void main () {
 	vec3 pos = position;
 	pos += satelitte;
-	pos.y += sin(length(pos.xz) * .1 + time) * 4.;
+	// pos.y += sin(length(pos.xz) * .1 + time) * 4.;
 	vUv = uv;
 	vNormal = normal;
 	vView = cameraPos - pos;

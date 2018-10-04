@@ -109,8 +109,8 @@ function load(callback) {
 
 		register(['shader/header.glsl'], () => {
 			Object.keys(assets.shaders).forEach(key => {
-				assets.shaders[key].vertexShader = files['shader/header.glsl'] + files[assets.shaders[key].url[0]];
-				assets.shaders[key].fragmentShader = files['shader/header.glsl'] + files[assets.shaders[key].url[1]];
+				assets.shaders[key].vertexShader = files['shader/header.glsl'] + shaderParse(files[assets.shaders[key].url[0]]);
+				assets.shaders[key].fragmentShader = files['shader/header.glsl'] + shaderParse(files[assets.shaders[key].url[1]]);
 				assets.shaders[key].needsUpdate = true;				
 			});
 		});

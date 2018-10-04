@@ -10,7 +10,7 @@ void main () {
 	p.x *= resolution.x/resolution.y;
 	p = vUv * 2. - 1.;
 	float salt = random(vUv);
-	vec4 color = texture2D(frame, vUv);
+	vec4 color = texture2D(bloom, vUv);
 	vec4 blur = texture2D(blur, vUv);
 	float dof = clamp(length(p), 0., 1.);
 	// color.rgb = mix(color.rgb, blur.rgb, dof + .05 * salt);

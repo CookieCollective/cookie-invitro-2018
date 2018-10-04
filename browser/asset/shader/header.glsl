@@ -9,8 +9,11 @@ const float HALF3PI = 4.71238;
 
 const vec3 blue1 = vec3(0.772, 0.905, 0.929);
 const vec3 orange1 = vec3(0.968, 0.898, 0.733);
+const vec3 colorDesert = vec3(0.968, 0.792, 0.372);
+const vec3 colorSkyNight = vec3(0.254, 0.454, 0.784);
+const vec3 colorSkyDark = vec3(0.109, 0.231, 0.427);
 
-#define getSunLight(sun) clamp(dot(normalize(sun), vec3(0,1,0))*4., 0., 1.)
+#define getSunLight(sun) clamp(dot(normalize(sun), vec3(0,1,0))*4.+.5, 0., 1.)
 
 #define repeat(p,r) (mod(p,r)-r/2.)
 #define sdist(p,r) (length(p)-r)

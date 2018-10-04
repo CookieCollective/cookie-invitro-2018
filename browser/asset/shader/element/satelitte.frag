@@ -13,7 +13,7 @@ varying vec2 vUv;
 
 void main () {
 	float light = getSunLight(sun);
-	float shade = dot(normalize(sun), vNormal) * .5 + .5;
+	float shade = clamp(dot(normalize(sun), vNormal), 0., 1.);
 	vec3 color = vec3(1);//texture2D(textureSatelitte, vUv).rgb;
 	color *= light;
 	color *= shade;
