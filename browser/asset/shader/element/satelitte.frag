@@ -1,22 +1,20 @@
 
 uniform sampler2D textureSatelitte;
 uniform vec3 sun;
-varying vec3 vNormal, vView;
+varying vec3 vNormal, vView, vColor;
 varying vec2 vUv;
-
-// chunk(common);
-// chunk(packing);
-// chunk(bsdfs);
-// chunk(lights_pars_begin);
-// chunk(shadowmap_pars_fragment);
-// chunk(shadowmask_pars_fragment);
 
 void main () {
 	float light = getSunLight(sun);
-	float shade = clamp(dot(normalize(sun), vNormal), 0., 1.);
-	vec3 color = vec3(1);//texture2D(textureSatelitte, vUv).rgb;
+	vec3 normal = normalize(vNormal);
+	vec3 view = normalize(vView);
+	vec3 lightDir = normalize(sun);
+	float shade = clamp(dot(lightDir, normal)*.5+.5, 0., 1.);
+	vec3 color = mix(vec3(1), colorDesert, .5);
+	color *= texture2D(textureSatelitte, vUv).rgb;
 	color *= light;
 	color *= shade;
-  // color *= ( getShadowMask() );
+	color += .5 * colorDesert * pow(max(0., dot(reflect(lightDir, normal), view)), 1.);
+	color += .5 * colorDesert * (1.-abs(dot(-view, normal))) * light;
 	gl_FragColor = vec4(color, 1);
 }

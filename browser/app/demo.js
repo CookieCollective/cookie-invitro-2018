@@ -22,17 +22,22 @@ export default function() {
 		// add(assets.shaders.raymarching);
 		
 		var meshes;
-		var cookie = assets.geometries.cookie;
-		var satelitte = assets.geometries.satelitte;
 		// add(assets.shaders.star, Geometry.create(Geometry.random(1000)));
+		add(assets.shaders.basic, [assets.geometries.title]);
 		add(assets.shaders.lensflare, Geometry.create(Geometry.random(20)));
-		meshes = add(assets.shaders.satelitte, [satelitte.children[0].geometry]);
+		meshes = add(assets.shaders.satelitte, [assets.geometries.satelitte]);
 		meshes.forEach(mesh => mesh.castShadow = true );
-		// addWireframe(assets.shaders.wireframe, [cookie]);
+		meshes = add(assets.shaders.panel, [assets.geometries.panel]);
+		meshes.forEach(mesh => mesh.castShadow = true );
+		// addWireframe(assets.shaders.wireframe, [assets.geometries.cookie]);
 
+		meshes = add(assets.shaders.cloud, [new THREE.PlaneGeometry(100,100,1,1)]);
 		meshes = add(assets.shaders.desert, [new THREE.PlaneGeometry(100,100,100,100)]);
 		meshes.forEach(mesh => mesh.receiveShadow = true );
-		add(assets.shaders.sky, [new THREE.DodecahedronBufferGeometry(1000, 0)]);
+		add(assets.shaders.sky, [new THREE.DodecahedronBufferGeometry(500, 3)]);
+		meshes = add(assets.shaders.cable, Geometry.create(Geometry.random(10), [5,500]));
+		meshes.forEach(mesh => mesh.receiveShadow = true );
+		// meshes = add(assets.shaders.bush, Geometry.create(Geometry.random(1000)));
 		// add(assets.shaders.chocolat, Geometry.clone(new THREE.DodecahedronBufferGeometry(1, 0), 50));
 		// addText();
 
@@ -58,7 +63,7 @@ export default function() {
 		engine.camera.lookAt(engine.target);
 
 		array = assets.animations.getPosition('sun', elapsed);
-		engine.light.position.set(array[0], array[1], array[2]);
+		engine.light.target.position.set(-array[0], -array[1], -array[2]);
 
 		// array = assets.animations.getPosition('moon', elapsed);
 		// engine.light.position.set(array[0], array[1], array[2]);
@@ -66,6 +71,7 @@ export default function() {
 		updateUniforms(elapsed);
 		
 		renderer.render(engine.scene, engine.camera, engine.frametarget, true);
+		renderer.render(engine.sceneCloud, engine.camera, engine.frameCloud, true);
 		engine.bloom.render(renderer);
 		renderer.render(engine.framerender, engine.camera);
 		// renderer.render(engine.scene, engine.camera);

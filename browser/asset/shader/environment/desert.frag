@@ -1,7 +1,7 @@
 
 uniform float time;
-uniform sampler2D textureSatelitte;
-uniform vec3 sun;
+uniform sampler2D textureSatelitte, textureCloud;
+uniform vec3 sun, panel, warningLight, dangerLight;
 varying vec3 vColor, vNormal, vView, vWorld;
 varying vec2 vUv, vScreen;
 
@@ -34,11 +34,32 @@ void main () {
 	float light = getSunLight(sun);
 
 	color *= mix(1., shade, fade);
-	color *= light;
+	color = mix(colorSkyNight * luminance(color) * .5, color, light);
 	// color = mix(colorDesert * light, color, fade);
 	// color = mix(color, c, smoothstep(.0, 1., .5/dust)*.05);
 	color += smoothstep(.5,1.,salt)*.1*fade;
 	color = clamp(color, 0., 1.);
-  color *= getShadowMask();
+  color *= mix(1., .5+.5*getShadowMask(), smoothstep(.4, 1., light));
+
+  // light from panel
+  vec3 worldPanel = vWorld - panel * .999;
+  vec3 dir = -panel;
+  float d = length(worldPanel);
+  fade = smoothstep(.25, .5, d) * smoothstep(1.5, 0., d);
+	float waveWarning = warningLight.y;
+	float waveDanger = dangerLight.y;
+	float diffAngle = abs(atan(worldPanel.z, worldPanel.x) - atan(panel.z, panel.x));
+	float lightFade = (1.-light) * smoothstep(.6, .0, diffAngle) * .5;
+  color += colorWarningLight * waveWarning * fade * lightFade;
+  color += colorDangerLight * waveDanger * fade * lightFade;
+
+  // road
+  // diffAngle = abs(atan(vWorld.z, vWorld.x) - atan(panel.z, panel.x));
+  // color = mix(color, vec3(1) * light, smoothstep(.008, .002, diffAngle));
+
+  // cloud shadow
+  // float noisy = fbm(vWorld.xz * .2);
+  // color *= .5+.5*texture2D(textureCloud, vUv).a;
+
 	gl_FragColor = vec4(color, 1);
 }

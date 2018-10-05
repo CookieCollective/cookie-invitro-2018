@@ -11,16 +11,6 @@ var deltas = {};
 var params = [];
 
 export var uniformsToUpdate = [];
-// export var uniforms = {
-// 			time: { value: 0 },
-// 			resolution: { value: [window.innerWidth, window.innerHeight] },
-// 			mouse: { value: [window.innerWidth/2, window.innerHeight/2] },
-// 			cameraPos: { value: [0,0,0] },
-// 			cameraTarget: { value: [0,0,0] },
-// 			frame: { value: 0 }, 
-// 			blur: { value: 0 }, 
-// 			bloom: { value: 0 }, 
-// 		}
 export var uniforms = THREE.UniformsUtils.merge([
         THREE.UniformsLib["lights"],
     {
@@ -52,6 +42,9 @@ export function initUniforms () {
 	})
 
 	uniforms.textureSatelitte = { value: assets.textures.satelitte };
+	uniforms.texturePanel = { value: assets.textures.panel };
+	uniforms.textureBush1 = { value: assets.textures.bush1 };
+	uniforms.textureCloud = { value: engine.frameCloud.texture };
 	assets.shaders.render.uniforms = uniforms;
 	uniforms.frame.value = engine.frametarget.texture;
 	uniforms.blur.value = engine.bloom.blurTarget.texture;
