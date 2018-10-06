@@ -1,7 +1,7 @@
 
 attribute vec3 color;
 uniform float time;
-uniform vec3 satelitte, cameraPos, timeElapsed;
+uniform vec3 satelitte, cameraPos, timeElapsed, satelitteRotation;
 varying vec2 vUv;
 varying vec3 vNormal, vView, vColor;
 
@@ -12,8 +12,8 @@ void main () {
 	pos += satelitte;
 	// pos.y += sin(length(pos.xz) * .1 + time) * 4.;
 	pos.y -= 2.;
-	// pos.xz *= rotation(.2 * sin(timeElapsed.y*2.));
-	// pos.yz *= rotation(.2 * sin(timeElapsed.y*.1) * step(.01, color.g));
+	pos.xz *= rotation(.2 * satelitteRotation.z);
+	pos.yz *= rotation(.2 * satelitteRotation.y * step(.01, color.g));
 	pos.y += 2.;
 	vUv = uv;
 	vNormal = normal;

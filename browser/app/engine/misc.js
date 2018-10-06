@@ -51,6 +51,14 @@ export function lerpArray(a0, a1, t) {
 	return a0;
 }
 
+export function lerpArray2(a0, a1, t, diffTreshold) {
+	for (var i = 0; i < a0.length; ++i) {
+		if (Math.abs(a0[i] - a1[i]) > diffTreshold) a0[i] = a1[i];
+		else a0[i] = lerp(a0[i], a1[i], t);
+	}
+	return a0;
+}
+
 export function lerpVector(a0, a1, t) {
 	a0.x = lerp(a0.x, a1.x, t);
 	a0.y = lerp(a0.y, a1.y, t);

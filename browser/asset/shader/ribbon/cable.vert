@@ -2,7 +2,7 @@
 attribute vec2 anchor, quantity;
 uniform vec3 cameraPos, cameraTarget, panel;
 uniform vec2 resolution;
-uniform float time;
+uniform float time, timeLoop;
 varying vec2 vAnchor;
 varying vec3 vNormal, vView;
 
@@ -13,7 +13,7 @@ void displace (inout vec3 pos, float ratio) {
 }
 
 void main () {
-	float size = .02;
+	float size = .01 + .001*sin(quantity.x*TAU);
 	vec3 pos = position;
 	vec3 next = pos;
 	// float y = mix(anchor.y)
@@ -21,21 +21,17 @@ void main () {
 	displace(pos, ratio);
 	displace(next, ratio + .01);
 
-	// vec3 front = normalize(cameraPos - pos);
-	// vec3 right = normalize(cross(front, vec3(0,1,0)));
-	// vec3 up = normalize(cross(front, right));
-	vec3 front = normalize(next - pos);
-	vec3 right = normalize(cross(front, vec3(0,1,0)));
-	vec3 up = normalize(cross(front, right));
-	up = (rotationMatrix(front, -(anchor.x * .5 + .5) * PI) * vec4(up,1)).xyz;
-	pos += (up * anchor.x) * size;
-	// pos.x += 1. + sin(anchor.y * 10.);
+	float angle = PI * -anchor.x;
+	vec2 offset = vec2(cos(angle),sin(angle)) * size;
+	pos.xy += offset;
+
 	float salt = random(quantity.xx) * .5 + .5;
 	float mess = sin(anchor.y * 30.) * sin(anchor.y * 100. + salt * 10. + anchor.y * 25. + quantity.y * 1.546) * .1 * salt;
 	float fade = .01 + .99 * (1.-abs(anchor.y));
 	pos.x -= quantity.x * 1. * fade + mess + fade * .5 * sin(anchor.y * 20.);
+	pos.y += size/4.;
 
-	vNormal = up;
+	vNormal = vec3(offset.xy, 0);
 	vView = cameraPos - pos;
 	vAnchor = anchor;
   vec4 worldPosition = modelMatrix * vec4(pos, 1.0);

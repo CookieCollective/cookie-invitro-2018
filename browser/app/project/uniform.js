@@ -15,6 +15,7 @@ export var uniforms = THREE.UniformsUtils.merge([
         THREE.UniformsLib["lights"],
     {
 			time: { value: 0 },
+			timeLoop: { value: 0 },
 			resolution: { value: [window.innerWidth, window.innerHeight] },
 			mouse: { value: [window.innerWidth/2, window.innerHeight/2] },
 			cameraPos: { value: [0,0,0] },
@@ -53,6 +54,7 @@ export function initUniforms () {
 
 export function updateUniforms (elapsed) {
 	uniforms.time.value = elapsed;
+	uniforms.timeLoop.value = engine.timeLoop;
 	uniforms.cameraPos.value = engine.camera.position;
 	uniforms.cameraTarget.value = engine.controls.target;
 	uniforms.mouse.value[0] = Mouse.x;
@@ -72,6 +74,7 @@ export function updateUniforms (elapsed) {
 		}
 	})
 	uniformsToUpdate.forEach(item => item.time.value = elapsed);
+	uniformsToUpdate.forEach(item => item.timeLoop.value = engine.timeLoop);
 }
 
 export function resizeUniforms (width, height) {

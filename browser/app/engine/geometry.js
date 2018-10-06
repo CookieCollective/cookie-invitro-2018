@@ -116,7 +116,7 @@ export default class Geometry {
 			geometry.setIndex(new THREE.BufferAttribute(new Uint32Array(indices), 1));
 		}
 		geometries.push(geometry);
-
+		console.log(geometries)
 		return geometries;
 	}
 

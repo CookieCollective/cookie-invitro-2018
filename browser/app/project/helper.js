@@ -28,11 +28,13 @@ export function add(material, geometries, sceneLayer) {
 	return meshes;
 }
 
-export function addWireframe(material, geometries, sceneLayer) {
+export function addWireframe(material, geometries, treshold, sceneLayer) {
 	material.uniforms = uniforms;
+	treshold = treshold || 1;
 	sceneLayer = sceneLayer || engine.scene;
 	geometries.forEach(geometry => {
-		var mesh = new THREE.LineSegments(new THREE.EdgesGeometry(geometry), material);
+		var mesh = new THREE.LineSegments(new THREE.EdgesGeometry(geometry, treshold), material);
+		console.log(mesh)
 		mesh.frustumCulled = false;
 		sceneLayer.add(mesh);
 	});

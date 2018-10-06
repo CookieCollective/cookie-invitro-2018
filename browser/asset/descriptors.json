@@ -11,6 +11,7 @@
 		"cookie": { "file" : "mesh/cookie.ply" },
 		"panel": { "file" : "mesh/panel.ply" },
 		"title": { "file" : "mesh/title.ply" },
+		"plane": { "file" : "mesh/plane.ply" },
 		"satelitte": { "file" : "mesh/satelitte.ply" }
 	},
 	"shaders": {
@@ -38,7 +39,8 @@
 		},
 		"basic": {
 			"vertexShader": "shader/element/basic.vert",
-			"fragmentShader": "shader/element/basic.frag"
+			"fragmentShader": "shader/element/basic.frag",
+			"side": 2
 		},
 		"satelitte": {
 			"vertexShader": "shader/element/satelitte.vert",
@@ -61,6 +63,13 @@
 			"vertexShader": "shader/environment/cloud.vert",
 			"fragmentShader": "shader/environment/cloud.frag",
 			"transparent": true
+		},
+		"uilines": {
+			"vertexShader": "shader/ui/uilines.vert",
+			"fragmentShader": "shader/ui/uilines.frag",
+			"depthTest": false,
+			"transparent": true,
+			"side": 2
 		},
 		"shape2D": {
 			"vertexShader": "shader/ui/shape2D.vert",

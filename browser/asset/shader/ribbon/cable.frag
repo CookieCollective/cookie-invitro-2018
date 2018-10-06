@@ -14,7 +14,7 @@ void main () {
 	float light = getSunLight(sun);
 	vec3 normal = normalize(vNormal);
 	float shade = clamp(dot(normalize(sun), normal)*.5+.5, 0., 1.);
-	vec3 color = mix(vec3(1), colorDesert, .5);
+	vec3 color = mix(vec3(.5), colorDesert, .2);
 	color *= light;
 	color *= shade;
   color *= mix(1., .5+.5*getShadowMask(), smoothstep(.4, 1., light));
