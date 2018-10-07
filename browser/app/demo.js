@@ -19,20 +19,17 @@ export default function() {
 		initEngine();
 		initUniforms();
 
-		// add(assets.shaders.raymarching);
-		
-		// add(assets.shaders.star, Geometry.create(Geometry.random(1000)));
 		add(assets.shaders.basic, [assets.geometries.title]).forEach(mesh => mesh.castShadow = true );
 		add(assets.shaders.lensflare, Geometry.create(Geometry.random(20)));
-		add(assets.shaders.uilines, Geometry.create(Geometry.random(20)));
-		// addWireframe(assets.shaders.uilines, [assets.geometries.plane]);
+		// add(assets.shaders.uilines, Geometry.create(Geometry.random(20)));
 		add(assets.shaders.satelitte, [assets.geometries.satelitte]).forEach(mesh => mesh.castShadow = true );
 		add(assets.shaders.panel, [assets.geometries.panel]).forEach(mesh => mesh.castShadow = true );
-		// addWireframe(assets.shaders.wireframe, [assets.geometries.cookie]);
+		add(assets.shaders.cookie, Geometry.createLine(assets.geometries.cookie));
+		add(assets.shaders.cookieChunk, Geometry.createLine(Geometry.clone(assets.geometries.ico, 40.)[0]));
 
 		add(assets.shaders.cloud, [new THREE.PlaneGeometry(100,100,1,1)]);
 		add(assets.shaders.desert, [new THREE.PlaneGeometry(100,100,100,100)]).forEach(mesh => mesh.receiveShadow = true );
-		add(assets.shaders.sky, [new THREE.DodecahedronBufferGeometry(500, 3)]);
+		add(assets.shaders.sky, [new THREE.DodecahedronBufferGeometry(900, 3)]);
 		add(assets.shaders.cable, Geometry.create(Geometry.random(10), [5,500])).forEach(mesh => mesh.receiveShadow = true );
 		// add(assets.shaders.bush, Geometry.create(Geometry.random(1000)));
 		// add(assets.shaders.chocolat, Geometry.clone(new THREE.DodecahedronBufferGeometry(1, 0), 50));

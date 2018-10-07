@@ -68,12 +68,37 @@ export default class Geometry {
 				geometry.addAttribute(name, new THREE.BufferAttribute(array, attributes[name].itemSize));
 			});
 			geometry.addAttribute( 'anchor', new THREE.BufferAttribute( new Float32Array(anchors), 2 ) );
-			geometry.addAttribute( 'quantity', new THREE.BufferAttribute( new Float32Array(quantities), 2 ) );
+			if (geometry.attributes.quantity == null) {
+				geometry.addAttribute( 'quantity', new THREE.BufferAttribute( new Float32Array(quantities), 2 ) );
+			}
 			// geometry.addAttribute( 'indexMap', new THREE.BufferAttribute( new Float32Array(indexMap), 2 ) );
 			geometry.setIndex(new THREE.BufferAttribute(new Uint32Array(indices), 1));
 			geometries.push(geometry);
 		}
 		return geometries;
+	}
+
+	static createLine (geometry, subdivisions) {
+		var positions = [];
+		var nexts = [];
+		var colors = [];
+		// geometry = new THREE.EdgesGeometry(geometry);
+		console.log(geometry)
+		var arrayPosition = geometry.attributes.position.array;
+		var index = geometry.index.array;
+		var count = index.length / 3;
+		var line = new THREE.BufferGeometry();
+		for (var i = 0; i < count; ++i) {
+			for (var t = 0; t < 3; ++t) {
+				for (var x = 0; x < 3; ++x) {
+					positions.push(arrayPosition[(index[i * 3 + t] * 3 + x)%arrayPosition.length]);
+					nexts.push(arrayPosition[(index[i*3 + (t+1)%3] * 3 + x)%arrayPosition.length]);
+				}
+			}
+		}
+		geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), 3));
+		geometry.addAttribute('next', new THREE.BufferAttribute(new Float32Array(nexts), 3));
+		return Geometry.create(geometry.attributes, subdivisions);
 	}
 
 	static clone (geometryToClone, instances) {

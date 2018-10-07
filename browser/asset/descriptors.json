@@ -11,14 +11,11 @@
 		"cookie": { "file" : "mesh/cookie.ply" },
 		"panel": { "file" : "mesh/panel.ply" },
 		"title": { "file" : "mesh/title.ply" },
+		"ico": { "file" : "mesh/ico.ply" },
 		"plane": { "file" : "mesh/plane.ply" },
 		"satelitte": { "file" : "mesh/satelitte.ply" }
 	},
 	"shaders": {
-		"wireframe": {
-			"vertexShader": "shader/element/wireframe.vert",
-			"fragmentShader": "shader/element/wireframe.frag"
-		},
 		"desert": {
 			"vertexShader": "shader/environment/desert.vert",
 			"fragmentShader": "shader/environment/desert.frag"
@@ -53,6 +50,14 @@
 		"cable": {
 			"vertexShader": "shader/ribbon/cable.vert",
 			"fragmentShader": "shader/ribbon/cable.frag"
+		},
+		"cookie": {
+			"vertexShader": "shader/element/cookie.vert",
+			"fragmentShader": "shader/element/cookie.frag"
+		},
+		"cookieChunk": {
+			"vertexShader": "shader/element/cookieChunk.vert",
+			"fragmentShader": "shader/element/cookieChunk.frag"
 		},
 		"sky": {
 			"vertexShader": "shader/environment/sky.vert",

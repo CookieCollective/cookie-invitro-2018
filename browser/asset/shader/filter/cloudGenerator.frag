@@ -13,6 +13,7 @@ float fbm (vec2 seed) {
 		value += amplitude * noise(seed);
 		amplitude *= .5;
 		seed *= 2.;
+		seed.x += timeElapsed.y * .1;
 		seed *= rotation(-timeElapsed.y * .01);
 	}
 	return value;
@@ -21,12 +22,14 @@ float fbm (vec2 seed) {
 void main () {
 	vec4 color = vec4(1);
 	vec2 p = vUv * 2. - 1.;
-	float fade = smoothstep(.0, 1., 1.-abs(p.x)) * smoothstep(.0, .5, 1.-abs(p.y));
-	float noisy = fbm(vUv * 16.);
-	noisy = smoothstep(.3, .6, noisy);
+	float fade = smoothstep(.0, .5, 1.-abs(p.x)) * smoothstep(.0, .5, 1.-abs(p.y));
+	float noisy = fbm(vUv * 4.);
 	noisy = sqrt(noisy);
-	color.a *= noisy * fade * .75;
-	color.a *= .5 + .5 * getSunLight(sun);
+	noisy = smoothstep(.7, .8, noisy);
+	noisy = sin(noisy*PI);
+	// noisy *= noisy;
+	color.a *= noisy * fade;// * .75;
+	color.a *= .8 + .2 * getSunLight(sun);
 
 	gl_FragColor = color;
 }
