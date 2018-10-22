@@ -82,8 +82,6 @@ export default class Geometry {
 		var positions = [];
 		var nexts = [];
 		var colors = [];
-		// geometry = new THREE.EdgesGeometry(geometry);
-		console.log(geometry)
 		var arrayPosition = geometry.attributes.position.array;
 		var index = geometry.index.array;
 		var count = index.length / 3;

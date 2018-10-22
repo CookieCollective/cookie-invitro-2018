@@ -3,104 +3,28 @@
 	"fonts": {
 	},
 	"textures": {
-		"satelitte": { "file" : "image/satelitte.png" },
-		"bush1": { "file" : "image/bush1.png" },
-		"panel": { "file" : "image/panel.png" }
+		"title": { "file" : "image/title.png" },
+		"demo": { "file" : "image/demo.png" }
 	},
 	"geometries": {
-		"cookie": { "file" : "mesh/cookie.ply" },
-		"panel": { "file" : "mesh/panel.ply" },
-		"title": { "file" : "mesh/title.ply" },
-		"ico": { "file" : "mesh/ico.ply" },
-		"plane": { "file" : "mesh/plane.ply" },
-		"satelitte": { "file" : "mesh/satelitte.ply" }
+		"cookie": { "file" : "mesh/cookie.ply" }
 	},
 	"shaders": {
-		"desert": {
-			"vertexShader": "shader/environment/desert.vert",
-			"fragmentShader": "shader/environment/desert.frag"
-		},
-		"chocolat": {
-			"vertexShader": "shader/element/chocolat.vert",
-			"fragmentShader": "shader/element/chocolat.frag"
-		},
-		"lensflare": {
-			"vertexShader": "shader/particle/lensflare.vert",
-			"fragmentShader": "shader/particle/lensflare.frag",
+		"point": {
+			"vertexShader": "shader/point.vert",
+			"fragmentShader": "shader/point.frag",
 			"depthTest": false,
 			"transparent": true
 		},
-		"floor": {
-			"vertexShader": "shader/environment/floor.vert",
-			"fragmentShader": "shader/environment/floor.frag"
-		},
-		"basic": {
-			"vertexShader": "shader/element/basic.vert",
-			"fragmentShader": "shader/element/basic.frag",
-			"side": 2
-		},
-		"satelitte": {
-			"vertexShader": "shader/element/satelitte.vert",
-			"fragmentShader": "shader/element/satelitte.frag"
-		},
-		"panel": {
-			"vertexShader": "shader/element/panel.vert",
-			"fragmentShader": "shader/element/panel.frag"
-		},
-		"cable": {
-			"vertexShader": "shader/ribbon/cable.vert",
-			"fragmentShader": "shader/ribbon/cable.frag"
-		},
-		"cookie": {
-			"vertexShader": "shader/element/cookie.vert",
-			"fragmentShader": "shader/element/cookie.frag"
-		},
-		"cookieChunk": {
-			"vertexShader": "shader/element/cookieChunk.vert",
-			"fragmentShader": "shader/element/cookieChunk.frag"
-		},
-		"sky": {
-			"vertexShader": "shader/environment/sky.vert",
-			"fragmentShader": "shader/environment/sky.frag",
-			"side": 1
-		},
-		"cloud": {
-			"vertexShader": "shader/environment/cloud.vert",
-			"fragmentShader": "shader/environment/cloud.frag",
-			"transparent": true
-		},
-		"uilines": {
-			"vertexShader": "shader/ui/uilines.vert",
-			"fragmentShader": "shader/ui/uilines.frag",
-			"depthTest": false,
-			"transparent": true,
-			"side": 2
-		},
-		"shape2D": {
-			"vertexShader": "shader/ui/shape2D.vert",
-			"fragmentShader": "shader/ui/shape2D.frag",
+		"line": {
+			"vertexShader": "shader/line.vert",
+			"fragmentShader": "shader/line.frag",
 			"depthTest": false,
 			"transparent": true
-		},
-		"bloom": {
-			"vertexShader": "shader/filter/bloom/bloom.vert",
-			"fragmentShader": "shader/filter/bloom/bloom.frag"
-		},
-		"bright": {
-			"vertexShader": "shader/filter/bloom/bright.vert",
-			"fragmentShader": "shader/filter/bloom/bright.frag"
-		},
-		"gaussian_blur": {
-			"vertexShader": "shader/filter/bloom/gaussian_blur.vert",
-			"fragmentShader": "shader/filter/bloom/gaussian_blur.frag"
-		},
-		"cloudGenerator": {
-			"vertexShader": "shader/filter/fullscreen.vert",
-			"fragmentShader": "shader/filter/cloudGenerator.frag"
 		},
 		"render": {
-			"vertexShader": "shader/filter/fullscreen.vert",
-			"fragmentShader": "shader/filter/render.frag"
+			"vertexShader": "shader/fullscreen.vert",
+			"fragmentShader": "shader/render.frag"
 		}
 	}
 }
