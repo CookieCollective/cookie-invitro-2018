@@ -2,29 +2,27 @@
 	"animations": "animation/scene.json",
 	"fonts": {
 	},
-	"textures": {
-		"title": { "file" : "image/title.png" },
-		"demo": { "file" : "image/demo.png" }
-	},
 	"geometries": {
 		"cookie": { "file" : "mesh/cookie.ply" }
 	},
 	"shaders": {
-		"point": {
-			"vertexShader": "shader/point.vert",
-			"fragmentShader": "shader/point.frag",
-			"depthTest": false,
-			"transparent": true
-		},
 		"line": {
 			"vertexShader": "shader/line.vert",
 			"fragmentShader": "shader/line.frag",
 			"depthTest": false,
 			"transparent": true
 		},
-		"render": {
-			"vertexShader": "shader/fullscreen.vert",
-			"fragmentShader": "shader/render.frag"
+		"star": {
+			"vertexShader": "shader/star.vert",
+			"fragmentShader": "shader/star.frag",
+			"depthTest": false,
+			"transparent": true
+		},
+		"ray": {
+			"vertexShader": "shader/ray.vert",
+			"fragmentShader": "shader/ray.frag",
+			"depthTest": false,
+			"transparent": true
 		}
 	}
 }

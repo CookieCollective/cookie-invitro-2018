@@ -8,33 +8,27 @@ import mouse from './engine/mouse';
 
 export default function() {
 
-	var scene, camera, frame, uniforms, quad;
+	var scene, camera, uniforms;
 
 	assets.load(function() {
 
 		scene = new THREE.Scene();
 		camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, .01, 1000);
-		frame = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight);
 
 		camera.position.z = 3;
+		camera.targetLookAt = new THREE.Vector3();
 
 		uniforms = {
 			time: { value: 0 },
 			mouse: { value: [0,0] },
 			resolution: { value: [window.innerWidth, window.innerHeight] },
-			frame: { value: frame.texture },
-			uTitle: { value: assets.textures.title },
-			uDemo: { value: assets.textures.demo },
 		}
 
 		Object.keys(assets.shaders).forEach(key => assets.shaders[key].uniforms = uniforms);
 
-		// add(assets.shaders.points, Geometry.create(Geometry.random(20)));
-		// add(assets.shaders.basic, [assets.geometries.title])
 		scene.add(new THREE.Mesh(Geometry.createLine(assets.geometries.cookie)[0], assets.shaders.line));
-		// scene.add(new THREE.Mesh(Geometry.create(assets.geometries.cookie.attributes)[0], assets.shaders.point));
-		quad = new THREE.Mesh(new THREE.PlaneBufferGeometry(1,1), assets.shaders.render);
-		quad.frustumCulled = false;
+		scene.add(new THREE.Mesh(Geometry.create(Geometry.random(100))[0], assets.shaders.ray));
+		scene.add(new THREE.Mesh(Geometry.create(Geometry.random(200))[0], assets.shaders.star));
 
 		onWindowResize();
 		window.addEventListener('resize', onWindowResize, false);
@@ -49,8 +43,12 @@ export default function() {
 		uniforms.mouse.value[0] = -1. + 2. * mouse.x / window.innerWidth;
 		uniforms.mouse.value[1] = -1. + 2. * mouse.y / window.innerHeight;
 
-		renderer.render(scene, camera, frame, true);
-		renderer.render(quad, camera);
+		camera.position.x = lerp(camera.position.x, -uniforms.mouse.value[0]*.5, .1);
+		camera.position.y = lerp(camera.position.y, uniforms.mouse.value[1]*.5, .1);
+		camera.lookAt(camera.targetLookAt);
+		camera.updateMatrix();
+
+		renderer.render(scene, camera);
 	}
 
 	function onWindowResize() {
@@ -59,7 +57,6 @@ export default function() {
 		renderer.setSize(window.innerWidth, window.innerHeight);
 		camera.aspect = w/h;
 		camera.updateProjectionMatrix();
-		frame.setSize(w, h);
 		uniforms.resolution.value[0] = w;
 		uniforms.resolution.value[1] = h;
 	}
