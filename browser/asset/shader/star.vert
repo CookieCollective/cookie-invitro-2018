@@ -5,7 +5,7 @@ uniform vec2 resolution;
 
 varying vec2 vAnchor;
 
-void animate (out vec3 p) {
+void animate (inout vec3 p) {
 	float i = floor(quantity.y / 2.);
 	p.xz *= rotation(time + i * .15465);
 	p.yz *= rotation(time + i * .98735);
