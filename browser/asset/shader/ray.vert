@@ -5,7 +5,7 @@ uniform vec2 resolution;
 
 varying vec2 vAnchor;
 
-void animate (float ratio, out vec3 p, vec3 n) {
+void animate (float ratio, inout vec3 p, vec3 n) {
 }
 
 void main () {
