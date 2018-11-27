@@ -11,10 +11,10 @@ vec3 makeUI (vec2 p) {
 	float shade = 0.;
 	float shape = 0.;
 	vec2 pp = p;
-	float r = uiTime.y;//sin(timeLoop * .1);
-	float a = r * 4.;
+	float r = uiTime.y * 2.;//sin(timeLoop * .1);
+	float a = r * TAU - PIHALF;
 	vec2 offset = vec2(cos(a), sin(a)) * r;
-	pp += offset;
+	p += offset;
 	shade += .02 / abs(sin(pp.x*(20.*abs(r))));
 	shade += .02 / abs(sin(pp.y*(20.*abs(r))));
 	
@@ -37,9 +37,9 @@ vec3 makeUI (vec2 p) {
 	shade += .01 / abs(smoothstep(.02, .06, length(p)));
 
 	p *= rot(-a);
-	pModPolar(p, 4.);
-	shade += .001 / max(step(mod(p.x+.02, .1),.04), abs(p.y));
-	// shade += .001 / max(step(mod(p.y+.02, .1),.04), abs(p.x));
+	// pModPolar(p, 4.);
+	shade += .001 / abs(p.y);
+	shade += .001 / max(step(mod(p.y+.02, .1),.04), abs(p.x));
 	shade = clamp(shade, 0., 1.);
 	return vec3(shade);
 }
@@ -63,7 +63,7 @@ void main () {
 	} else {
 
 		vec3 blu = texture2D(blur, vUv).rgb;
-		blu = mix(blu, smoothstep(.3, .8, blu), smoothstep(.7, .9, boom.y));
+		blu = mix(blu, smoothstep(.3, .8, blu), smoothstep(.8, 1., boom.y));
 		color.rgb = mix(color.rgb, blu, smoothstep(.3, .8, boom.y));
 
 		// color.rgb = texture2D(blur, vUv).rgb;
