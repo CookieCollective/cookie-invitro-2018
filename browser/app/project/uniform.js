@@ -53,6 +53,7 @@ export function initUniforms () {
 }
 
 export function updateUniforms (elapsed) {
+	var dt = Math.max(0.01, Math.min(1., elapsed - uniforms.time.value));
 	uniforms.time.value = elapsed;
 	uniforms.timeLoop.value = engine.timeLoop;
 	uniforms.cameraPos.value = engine.camera.position;
@@ -61,7 +62,7 @@ export function updateUniforms (elapsed) {
 	uniforms.mouse.value[1] = Mouse.y;
 	keys.forEach(name => {
 		var pos = assets.animations.getPosition(name, elapsed);
-		deltas[name] = lerpArray(deltas[name], pos, .1);
+		// deltas[name] = lerpArray(deltas[name], pos, 10.*dt);
 		uniforms[name].value = pos;
 	});
 	params.forEach(name => {

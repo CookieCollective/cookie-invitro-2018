@@ -24,6 +24,10 @@
 			"vertexShader": "shader/element/chocolat.vert",
 			"fragmentShader": "shader/element/chocolat.frag"
 		},
+		"pepite": {
+			"vertexShader": "shader/element/pepite.vert",
+			"fragmentShader": "shader/element/pepite.frag"
+		},
 		"lensflare": {
 			"vertexShader": "shader/particle/lensflare.vert",
 			"fragmentShader": "shader/particle/lensflare.frag",

@@ -27,6 +27,8 @@ export default function() {
 		add(assets.shaders.cookie, Geometry.createLine(assets.geometries.cookie));
 		add(assets.shaders.cookieChunk, Geometry.createLine(Geometry.clone(assets.geometries.ico, 40.)[0]));
 
+		add(assets.shaders.pepite, [new THREE.DodecahedronBufferGeometry(1, 0)]);
+
 		add(assets.shaders.cloud, [new THREE.PlaneGeometry(100,100,1,1)]);
 		add(assets.shaders.desert, [new THREE.PlaneGeometry(100,100,100,100)]).forEach(mesh => mesh.receiveShadow = true );
 		add(assets.shaders.sky, [new THREE.DodecahedronBufferGeometry(900, 3)]);

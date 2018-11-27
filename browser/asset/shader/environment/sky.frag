@@ -1,6 +1,6 @@
 
 uniform float time;
-uniform vec3 sun, moon, timeElapsed;
+uniform vec3 sun, moon, timeElapsed, skyColor;
 
 varying vec3 vView, vPos;
 
@@ -24,6 +24,8 @@ void main () {
 	// sky
 	color = mix(mix(colorSkyDark, colorSkyNight, horizon),  mix(colorDesert, colorSkyDay, horizon), light);
 
+	color *= skyColor.y;
+
 	// sun
 	vec3 dirSun = normalize(cross(normalize(sun), vView));;
 	float angle = atan(dirSun.x, dirSun.y);
@@ -32,15 +34,16 @@ void main () {
 	color += vec3(vec2(1.), .5) * shapeSun;
 
 	// moon
-	float dotMoon = dot(normalize(moon), view)+1.;
-	float shapeMoon = .0002/(dotMoon);
-	shapeMoon = smoothstep(.5, 1., shapeMoon);
-	float shapeMoonDay = smoothstep(.0008,.000089,dotMoon) * .02;
-	shapeMoon = mix(shapeMoon, shapeMoonDay, light);
-	color += shapeMoon;
+	// float dotMoon = dot(normalize(moon), view)+1.;
+	// float shapeMoon = .0002/(dotMoon);
+	// shapeMoon = smoothstep(.5, 1., shapeMoon);
+	// float shapeMoonDay = smoothstep(.0008,.000089,dotMoon) * .02;
+	// shapeMoon = mix(shapeMoon, shapeMoonDay, light);
+	// color += shapeMoon;
 
 	// star
 	const float count = 3.;
+	float l = ((1.-light)+(1.-skyColor.y)*2.)*.002;
 	for (float index = count; index > 0.; --index) {
 		float ratio = index / count;
 		ratio *= ratio;
@@ -50,7 +53,7 @@ void main () {
 		salt = random(floor(uv)*.001);
 		p += .25 * sin(salt*33.);
 		float d = length(p);
-		color += (1.-light)*.002*salt*(1.-clamp(d*4.,0.,1.)) / d;
+		color += l*salt*(1.-clamp(d*4.,0.,1.)) / d;
 	}
 
 	// ground
@@ -58,4 +61,5 @@ void main () {
 	// color = mix(colorDesert * light, color, ground);
 
 	gl_FragColor = vec4(clamp(color, 0., 1.), 1);
+	// gl_FragColor.rgb = mix(gl_FragColor.rgb, 1.-gl_FragColor.rgb, skyColor.z);
 }

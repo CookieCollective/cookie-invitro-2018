@@ -15,6 +15,8 @@ void main () {
 	color *= light;
 	color *= shade;
 	color += .5 * colorDesert * pow(max(0., dot(reflect(lightDir, normal), view)), 1.) * light;
-	color += .5 * colorDesert * (1.-abs(dot(-view, normal))) * light;
+	float back = (1.-abs(dot(-view, normal)));
+	color += .5 * colorDesert * back * light;
+	color += pow(back, 2.) * (1.-light);
 	gl_FragColor = vec4(color, 1);
 }
