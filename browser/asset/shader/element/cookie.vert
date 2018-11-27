@@ -8,8 +8,8 @@ varying vec3 vColor, vNormal, vView;
 
 void animate (inout vec3 p, float wave, float period) {
 	float noisy = noise(p * 2. + period);
-	p.yz *= rot(time*.1);
-	p.xz *= rot(time*.2);
+	p.yz *= rot(time*.1 + PI);
+	p.xz *= rot(time*.2 );
 	float d = length(p.xz);
 	float a = atan(p.z, p.x);
 	// p.y += sin(d / 2. - timeLoop / 2.) * .1 * d;

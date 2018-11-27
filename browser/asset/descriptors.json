@@ -44,6 +44,11 @@
 			"fragmentShader": "shader/element/basic.frag",
 			"side": 2
 		},
+		"greets": {
+			"vertexShader": "shader/element/greets.vert",
+			"fragmentShader": "shader/element/greets.frag",
+			"side": 2
+		},
 		"satelitte": {
 			"vertexShader": "shader/element/satelitte.vert",
 			"fragmentShader": "shader/element/satelitte.frag"
