@@ -12,6 +12,7 @@
 		"panel": { "file" : "mesh/panel.ply" },
 		"title": { "file" : "mesh/title.ply" },
 		"ico": { "file" : "mesh/ico.ply" },
+		"greets": { "file" : "mesh/greets.obj" },
 		"plane": { "file" : "mesh/plane.ply" },
 		"satelitte": { "file" : "mesh/satelitte.ply" }
 	},

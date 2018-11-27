@@ -14,7 +14,7 @@ const vec3 colorSkyDark = vec3(0.109, 0.231, 0.427);
 const vec3 colorWarningLight = vec3(0, 1, 0.0);
 const vec3 colorDangerLight = vec3(1, 0.2, 0.101);
 
-#define getSunLight(sun) clamp(dot(normalize(sun), vec3(0,1,0))*4.+.5, 0., 1.)
+#define getSunLight(sun) clamp((dot(normalize(sun), vec3(0,1,0)))*24., 0., 1.)
 
 #define repeat(p,r) (mod(p,r)-r/2.)
 #define sdist(p,r) (length(p)-r)

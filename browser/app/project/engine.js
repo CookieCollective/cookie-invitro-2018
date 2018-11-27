@@ -41,7 +41,7 @@ export function initEngine () {
 	engine.light.shadow.camera.bottom = -10;
 	engine.light.shadow.camera.left = -10;
 	engine.light.shadow.camera.right = 10;
-	engine.light.shadow.camera.near = -10;
+	engine.light.shadow.camera.near = -100;
 	engine.light.shadow.camera.far = 100;
 	// engine.light.shadow.radius = 2.;
 	engine.light.shadow.bias = 0.01;

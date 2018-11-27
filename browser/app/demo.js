@@ -20,6 +20,7 @@ export default function() {
 		initUniforms();
 
 		add(assets.shaders.basic, [assets.geometries.title]).forEach(mesh => mesh.castShadow = true );
+		add(assets.shaders.basic, [assets.geometries.greets.children[0].geometry]).forEach(mesh => mesh.castShadow = true );
 		add(assets.shaders.lensflare, Geometry.create(Geometry.random(20)));
 		// add(assets.shaders.uilines, Geometry.create(Geometry.random(20)));
 		add(assets.shaders.satelitte, [assets.geometries.satelitte]).forEach(mesh => mesh.castShadow = true );

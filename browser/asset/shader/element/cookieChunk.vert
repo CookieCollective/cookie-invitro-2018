@@ -38,6 +38,10 @@ void main () {
 	// wave = smoothstep(.2, 1., wave);
 	animate(pos, wave, period);
 	animate(nxt, wave, period);
+	vec3 dir = normalize(nxt-pos);
+	float len = 10. * boom.y;
+	pos -= dir * len;
+	nxt += dir * len;
 	// vec3 forward = normalize(next - pos);
 	// vec3 right = normalize(cross(forward, normalize(pos)));
 	// vec3 up = normalize(cross(right, forward));
