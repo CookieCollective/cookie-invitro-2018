@@ -43,9 +43,9 @@ export function initUniforms () {
 		}
 	})
 
-	// uniforms.textureSatelitte = { value: assets.textures.satelitte };
-	// uniforms.texturePanel = { value: assets.textures.panel };
-	// uniforms.textureBush1 = { value: assets.textures.bush1 };
+	uniforms.textureSatelitte = { value: assets.textures.satelitte };
+	uniforms.texturePanel = { value: assets.textures.panel };
+	uniforms.textureBush1 = { value: assets.textures.bush1 };
 	uniforms.textureCloud = { value: engine.frameCloud.texture };
 	assets.shaders.render.uniforms = uniforms;
 	uniforms.frame.value = engine.frametarget.texture;
