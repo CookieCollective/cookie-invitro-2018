@@ -39,7 +39,7 @@ void main () {
 	// color = mix(color, c, smoothstep(.0, 1., .5/dust)*.05);
 	color += smoothstep(.5,1.,salt)*.1*fade;
 	color = clamp(color, 0., 1.);
-  color *= mix(1., .5+.5*getShadowMask(), smoothstep(.4, 1., light));
+  // color *= mix(1., .5+.5*getShadowMask(), smoothstep(.4, 1., light));
 	color *= mix(1., 0., clamp(dot(-lightDir, normal), 0., 1.));
 
   // light from panel

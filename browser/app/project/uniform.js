@@ -5,6 +5,7 @@ import assets from '../engine/assets';
 import { clamp, lerp, lerpArray, lerpVector, lerpVectorArray, saturate } from '../engine/misc';
 import { engine } from './engine';
 import Mouse from '../engine/mouse';
+import * as makeText from '../engine/make-text';
 
 var keys = [];
 var deltas = {};
@@ -42,14 +43,18 @@ export function initUniforms () {
 		}
 	})
 
-	uniforms.textureSatelitte = { value: assets.textures.satelitte };
-	uniforms.texturePanel = { value: assets.textures.panel };
-	uniforms.textureBush1 = { value: assets.textures.bush1 };
+	// uniforms.textureSatelitte = { value: assets.textures.satelitte };
+	// uniforms.texturePanel = { value: assets.textures.panel };
+	// uniforms.textureBush1 = { value: assets.textures.bush1 };
 	uniforms.textureCloud = { value: engine.frameCloud.texture };
 	assets.shaders.render.uniforms = uniforms;
 	uniforms.frame.value = engine.frametarget.texture;
 	uniforms.blur.value = engine.bloom.blurTarget.texture;
 	uniforms.bloom.value = engine.bloom.bloomTarget.texture;
+
+
+
+	makeCredits();
 }
 
 export function updateUniforms (elapsed) {
@@ -82,4 +87,48 @@ export function resizeUniforms (width, height) {
 	uniforms.resolution.value[0] = width;
 	uniforms.resolution.value[1] = height;
 	uniformsToUpdate.forEach(item => item.resolution.value = [width, height]);
+}
+
+function makeCredits() {
+	uniforms.uCredits = { value: makeText.createTexture([{
+		text: 'COOKIE',
+		font: 'bebasneue_bold',
+		fontSize: 230*4.5,
+		fillStyle: '#FFFFFF',
+		offsetY: -580,
+		width: 2048,
+		height: 2048,
+		textAlign: 'center',
+		textBaseline: 'middle',
+	},{
+		text: 'IN THE SKY',
+		font: 'bebasneue_bold',
+		fontSize: 150*4.5,
+		offsetY: 80,
+		fillStyle: '#FFFFFF',
+		width: 2048,
+		height: 2048,
+		textAlign: 'center',
+		textBaseline: 'middle',
+	},{
+		text: '\n\nWITH DIAMONDS',
+		font: 'bebasneue_bold',
+		fontSize: 100*4.5,
+		offsetY: 80,
+		fillStyle: '#FFFFFF',
+		width: 2048,
+		height: 2048,
+		textAlign: 'center',
+		textBaseline: 'middle',
+	},{
+		text: 'FERGUS ft. ZUBROW + PONK',
+		font: 'bebasneue_bold',
+		fontSize: 250,
+		fillStyle: '#FFFFFF',
+		width: 2048,
+		height: 2048,
+		anchor: [.5, 1],
+		textAlign: 'center',
+		textBaseline: 'bottom',
+	}])};
 }

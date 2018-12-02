@@ -10,7 +10,7 @@ void main () {
 	vec3 normal = normalize(vNormal);
 	vec3 view = normalize(vView);
 	float shade = clamp(dot(normalize(sun), normal)*.25+.75, 0., 1.);
-	vec3 color = texture2D(texturePanel, vUv).rgb;
+	vec3 color = vec3(1);//texture2D(texturePanel, vUv).rgb;
 	color = mix(color, colorSkyNight, .2);
 	// color *= light;
 	color *= shade;

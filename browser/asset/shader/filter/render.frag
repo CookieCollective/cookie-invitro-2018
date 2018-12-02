@@ -1,8 +1,8 @@
 
-uniform sampler2D frame, frameUI, curve, bloom, blur;
+uniform sampler2D frame, frameUI, curve, bloom, blur, uCredits;
 uniform vec2 resolution, mouse;
 uniform float time, timeLoop;
-uniform vec3 fade, ui, uiTime, boom, rays;
+uniform vec3 fade, ui, uiTime, boom, rays, credits, invert;
 varying vec2 vUv;
 
 #define c01(v) clamp(v,0.,1.)
@@ -101,7 +101,7 @@ void main () {
 			vec2 offset = -normalize(p)*unit*i*4.;
 			color -= smoothstep(.9, 0., texture2D(bloom, vUv + offset))*rays.y / count;
 		}
-		color.rgb = vec3(1.-c01(abs(sin(color.r*2. + time))));
+		color.rgb = mix(color.rgb, vec3(1.-c01(abs(sin(color.r*2. + time*4.)))), invert.y);
 	}
 	// const float count = 10.;
 	// for(float i = count; i > 0.; --i) {
@@ -109,6 +109,13 @@ void main () {
 	// 	color += luminance(texture2D(blur, vUv + offset).rgb) / count;
 	// }
 	// color = mod(color*.5 + time, 1.);
+
+	p = vUv;
+	p = p * 2. - 1.;
+	// p *= .4;
+	p.x *= resolution.x / resolution.y;
+	p = p * .5 + .5;
+	color = mix(color, color*texture2D(uCredits, p), credits.y);
 
 	color *= fade.y;
 	gl_FragColor = color;

@@ -17,6 +17,6 @@ void main () {
 	vec3 color = mix(vec3(.5), colorDesert, .2);
 	color *= light;
 	color *= shade;
-  color *= mix(1., .5+.5*getShadowMask(), smoothstep(.4, 1., light));
+  // color *= mix(1., .5+.5*getShadowMask(), smoothstep(.4, 1., light));
 	gl_FragColor = vec4(color,1);
 }
